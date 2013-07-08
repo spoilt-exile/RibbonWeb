@@ -1,11 +1,14 @@
-@(message: String)
+@(message: String, err_message: String)
 
 @main(message) {
     
     <h1>Веб-інтерфейс системи "Стрічка"</h1>
     <br>
     <div align=center>
-    	<form id="login">
+    	@if(err_message != null) {
+    		<font color="red">@err_message</font>
+    	}
+    	<form action="@routes.LoginController.login()" id="login" method="post">
     		<b>Им'я користувача:</b><br>
     		<input type="text" id="username"><br>
     		<b>Пароль:</b><br>
