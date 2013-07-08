@@ -1,7 +1,19 @@
 @(message: String)
 
-@main("Welcome to Play 2.1") {
+@main(message) {
     
-    @play20.welcome(message, style = "Java")
+    <h1>Веб-інтерфейс системи "Стрічка"</h1>
+    <br>
+    <div align=center>
+    	<form id="login">
+    		<b>Им'я користувача:</b><br>
+    		<input type="text" id="username"><br>
+    		<b>Пароль:</b><br>
+    		<input type="password" id="password"><br>
+    		<input type="checkbox" id="setcookie"> Запам'ятати мене<br>
+    		<input type="submit" value="Увійти">
+    		<input type="reset" value="Збросити">
+    	</form>
+    </div>
     
 }
