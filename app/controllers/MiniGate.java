@@ -31,10 +31,17 @@ public final class MiniGate {
 	 */
 	private static java.io.PrintWriter gateOutput;
 	
-	/**
-	 * Initialization block.
-	 */
 	static {
+		init();
+		if (!isGateInited) {
+			runInitThread();
+		}
+	}
+	
+	/**
+	 * Initialization method.
+	 */
+	private static void init() {
 		try {
 			gateSocket = new java.net.Socket("127.0.0.1", 3003);
 			gateInput = new java.io.BufferedReader(new java.io.InputStreamReader(gateSocket.getInputStream()));
@@ -43,6 +50,21 @@ public final class MiniGate {
 		} catch (java.io.IOException ex) {
 			
 		}
+	}
+	
+	private static void runInitThread() {
+		new Thread() {
+			public void run() {
+				while(!isGateInited) {
+					try {
+						Thread.sleep(60 * 1000);
+					} catch (InterruptedException ex) {
+						
+					}
+					init();
+				}
+			}
+		}.start();
 	}
 	
 }
