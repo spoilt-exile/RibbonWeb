@@ -1,0 +1,69 @@
+/** Body style override **/
+body {
+  	background-color: #cbcbcb;
+  	margin: 12pt;
+}
+
+/** Main header style class **/
+.m-header{
+  	text-align: center;
+	font-weight: bold;
+	font-size: 22pt;
+	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+	background-color: #5990d9;
+ 	color: #ffffff;
+}
+
+/** Ordinary header style class **/
+.header{
+	font-weight: bold;
+	font-size: 16pt;
+	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+}
+
+/** Main text style class **/
+.main{
+	font-size: 12pt;
+	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+  	text-align: justify;
+}
+
+/** Bold text style class **/
+.strong{
+  font-weight: bold;
+}
+
+/** Italic text style class **/
+.select {
+	font-style: italic;
+}
+
+/** Red text **/
+.red-text {
+	color: #b30000;
+}
+
+/** Green text **/
+.green-text {
+  color: #0c5602;
+}
+
+/** Blue text **/
+.blue-text {
+  color: #0048b3;
+}
+
+/** Error class: header **/
+.ribbon_error_header {
+	color: #b30000;
+	font-weight: bold;
+	font-size: 22pt;
+	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+}
+
+/** Error class: body **/
+.ribbon_error_body {
+	color: #b30000;
+	font-size: 18pt;
+	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+}
