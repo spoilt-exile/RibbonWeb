@@ -1,7 +1,8 @@
 package controllers;
 
 /**
- * Networking and protocol listeners container class;
+ * Gate connector thread class. This class is almost a copy 
+ * of AppComponents.NetWorker class in libRibbonApp
  * @author Stanislav Nepochatov <spoilt.exile@gmail.com>
  */
 public class GateWorker extends Thread{
@@ -217,6 +218,9 @@ public class GateWorker extends Thread{
         return respond;
     }
     
+    /**
+     * Close this gate connection.
+     */
     public void closeGate() {
         outStream.println("RIBBON_NCTL_CLOSE:");
     }

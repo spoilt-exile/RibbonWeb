@@ -6,10 +6,17 @@ import play.mvc.*;
 import views.html.*;
 import views.html.defaultpages.error;
 
+/**
+ * Login controller class.
+ * @author Stanislav Nepochatov <spoilt.exile@gmail.com>
+ */
 public class LoginController extends Controller {
-	
+    
+    /**
+     * Remote login error display string.
+     */
     private static String errorLogin = null;
-  
+
     public static Result index() {
         if (!MiniGate.isGateReady) {
             return ok(ribbon_error.render(MiniGate.gateErrorStr));
