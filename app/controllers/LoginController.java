@@ -6,6 +6,8 @@ import play.mvc.*;
 import views.html.*;
 import views.html.defaultpages.error;
 
+import play.data.*;
+
 /**
  * Login controller class.
  * @author Stanislav Nepochatov <spoilt.exile@gmail.com>
@@ -26,7 +28,8 @@ public class LoginController extends Controller {
     }
     
     public static Result login() {
-    	// TODO implement login method with cookies
+    	models.Session newSession = Form.form(models.Session.class).bindFromRequest().get();
+        String loginErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_REM_LOGIN:{" + newSession.username + "}," + MiniGate.getHash(newSession.password));
     	return redirect(routes.LoginController.index());
     }
   

@@ -19,7 +19,7 @@ public final class MiniGate {
     /**
      * Gate connection to the Ribbon server.
      */
-    private static GateWorker gate = new GateWorker();
+    public static GateWorker gate = new GateWorker();
     
     /**
      * Initialization thread run flag.

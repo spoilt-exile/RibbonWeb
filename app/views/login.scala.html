@@ -6,12 +6,12 @@
     	@if(err_message != null) {
     		<font color="red">@err_message</font>
     	}
-    	<form action="@routes.LoginController.login()" id="login" method="post">
+    	<form action="/login" method="post">
     		<b>Ім'я користувача:</b><br>
-    		<input type="text" id="username"><br>
+    		<input type="text" name="username"><br>
     		<b>Пароль:</b><br>
-    		<input type="password" id="password"><br>
-    		<input type="checkbox" id="setcookie"> Запам'ятати мене<br>
+    		<input type="password" name="password"><br>
+    		<input type="checkbox" name="setcookie"> Запам'ятати мене<br>
     		<input type="submit" value="Увійти">
     		<input type="reset" value="Збросити">
     	</form>
