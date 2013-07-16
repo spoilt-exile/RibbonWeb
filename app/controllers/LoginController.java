@@ -30,7 +30,7 @@ public class LoginController extends Controller {
     public static Result login() {
     	models.Session newSession = Form.form(models.Session.class).bindFromRequest().get();
         String loginErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_REM_LOGIN:{" + newSession.username + "}," + MiniGate.getHash(newSession.password));
-    	return redirect(routes.LoginController.index());
+    	return redirect(routes.SimpleReleaseContoller.index());
     }
   
 }

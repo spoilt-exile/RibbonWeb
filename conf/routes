@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.LoginController.index()
 POST	/login                      controllers.LoginController.login()
+GET     /simple_release             controllers.SimpleReleaseContoller.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
