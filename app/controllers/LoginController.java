@@ -23,14 +23,26 @@ public class LoginController extends Controller {
         if (!MiniGate.isGateReady) {
             return ok(ribbon_error.render(MiniGate.gateErrorStr));
         } else {
-            return ok(login.render("Вхід до системи...", LoginController.errorLogin));
+            return ok(login.render("Вхід до системи...", null));
+        }
+    }
+    
+    public static Result index_with_error(String error) {
+        if (!MiniGate.isGateReady) {
+            return ok(ribbon_error.render(MiniGate.gateErrorStr));
+        } else {
+            return ok(login.render("Вхід до системи...", error));
         }
     }
     
     public static Result login() {
     	models.Session newSession = Form.form(models.Session.class).bindFromRequest().get();
         String loginErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_REM_LOGIN:{" + newSession.username + "}," + MiniGate.getHash(newSession.password));
-    	return redirect(routes.SimpleReleaseContoller.index());
+        if (loginErr == null) {
+            return redirect(routes.SimpleReleaseContoller.index());
+        } else {
+            return redirect(routes.LoginController.index_with_error(loginErr));
+        }
     }
   
 }
