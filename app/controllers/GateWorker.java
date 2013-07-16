@@ -116,6 +116,13 @@ public class GateWorker extends Thread{
                 }
             } catch (java.io.IOException ex) {
                 isAlive = false;
+            } catch (NullPointerException ex) {
+                MiniGate.isGateReady = false;
+                MiniGate.gateErrorStr = "Сервер не відповідає!";
+                this.closeGate();
+                MiniGate.gate = new GateWorker();
+                MiniGate.init();
+                break;
             }
         }
     }
