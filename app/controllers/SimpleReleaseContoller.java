@@ -19,7 +19,11 @@ import play.data.*;
 public class SimpleReleaseContoller extends Controller {
     
     public static Result index() {
-        return ok(dummy.render("Простого выпуска", "Форма выпуска на направление СИСТЕМА.ТЕСТ"));
+        return ok(simple_release.render());
+    }
+    
+    public static Result post() {
+        return ok(dummy.render("Функция выпуска", "Выпуск сообщения на направление СИСТЕМА.ТЕСТ"));
     }
     
 }

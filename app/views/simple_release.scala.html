@@ -1,0 +1,16 @@
+@main("Простий випуск на напрямок СИСТЕМА.ТЕСТ") {
+    <div align="center">
+    <form action="/simple_release" method="post">
+        <span class="strong">Заголовок:</span><br>
+        <input type="text" name="HEADER" size="100"><br><br>
+        <span class="strong">Теги (через кому):</span><br>
+        <input type="text" name="RAW_TAGS" size="100">
+        <br>
+        <br>
+        <span class="strong">Зміст повідомлення:</span><br>
+        <textarea name="CONTENT" cols="120" rows="20"></textarea><br><br>
+        <input type="submit" value="Випустити">
+        <input type="reset" value="Зтерти">
+    </form>
+    </div>
+}
