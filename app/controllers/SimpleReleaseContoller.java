@@ -27,7 +27,9 @@ public class SimpleReleaseContoller extends Controller {
     }
     
     public static Result post() {
-        return ok(dummy.render("Функция выпуска", "Выпуск сообщения на направление СИСТЕМА.ТЕСТ"));
+        models.MessageTest newPost = Form.form(models.MessageTest.class).bindFromRequest().get();
+        String postErr = MiniGate.gate.sendCommandWithCheck(newPost.getCsvToPost());
+        return redirect(routes.SimpleReleaseContoller.index());
     }
     
 }
