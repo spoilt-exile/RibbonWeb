@@ -197,8 +197,11 @@ public class GateWorker extends Thread{
         }
         if (respond.startsWith("OK:")) {
             return null;
-        } else {
+        } else if (respond.startsWith("RIBBON_ERROR")){
             return respond.substring(respond.indexOf(':') + 1);
+        } else {
+            this.exec(respond);
+            return null;
         }
     }
     

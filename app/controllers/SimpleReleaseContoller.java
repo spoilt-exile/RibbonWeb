@@ -19,7 +19,11 @@ import play.data.*;
 public class SimpleReleaseContoller extends Controller {
     
     public static Result index() {
-        return ok(simple_release.render());
+        if (session("connected") != null) {
+            return ok(simple_release.render());
+        } else {
+            return redirect(routes.LoginController.index_with_error("Ви повинні зарєєструватись!"));
+        }
     }
     
     public static Result post() {

@@ -6,6 +6,7 @@
 GET     /                           controllers.LoginController.index()
 GET     /login_err                  controllers.LoginController.index_with_error(err:String)
 POST	/login                      controllers.LoginController.login()
+GET     /logout                     controllers.LoginController.logout()
 GET     /simple_release             controllers.SimpleReleaseContoller.index()
 POST    /simple_release             controllers.SimpleReleaseContoller.post()
 
