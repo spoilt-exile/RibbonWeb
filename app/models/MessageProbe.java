@@ -24,14 +24,14 @@ import javax.persistence.Id;
 
 import play.db.ebean.*;
 import com.avaje.ebean.validation.*;
-
+import play.data.format.*;
 
 /**
  * Message post probe model;
  * @author Stanislav Nepochatov <spoilt.exile@gmail.com>
  */
 @Entity
-public class MessageProbe {
+public class MessageProbe extends Model {
     
     @Id
     public String id;
@@ -44,10 +44,18 @@ public class MessageProbe {
     public String header;
     
     /**
+     * Date of message creating.
+     */
+    @NotNull
+    @Formats.DateTime(pattern="HH:mm:ss dd.MM.yyyy")
+    @Past
+    public java.util.Date date = new java.util.Date();
+    
+    /**
      * Pseudo directory to post.
      */
     @NotNull
-    public String pseudo_dir;
+    public String pseudo_dir = "Тест";
     
     /**
      * Tags of message.
@@ -93,9 +101,21 @@ public class MessageProbe {
         DELETED
     }
     
+    /**
+     * Current status of this probe.
+     */
     @NotNull
     public STATUS curr_status = STATUS.NEW;
     
+    /**
+     * Posting error.
+     */
+    public String curr_error = null;
+    
+    /**
+     * Get message probe CSV representation for post to the system.
+     * @return formatted to CSV command;
+     */
     public String getCsvToPost() {
         return "RIBBON_POST_MESSAGE:-1,[СИСТЕМА.Тест],UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{}\n" + content + "\nEND:";
     }

@@ -26,6 +26,7 @@ import views.html.*;
 import views.html.defaultpages.error;
 
 import play.data.*;
+import static play.mvc.Controller.session;
 
 /**
  *
@@ -43,7 +44,9 @@ public class SimpleReleaseContoller extends Controller {
     
     public static Result post() {
         models.MessageProbe newPost = Form.form(models.MessageProbe.class).bindFromRequest().get();
-        String postErr = MiniGate.gate.sendCommandWithCheck(newPost.getCsvToPost());
+        //String postErr = MiniGate.gate.sendCommandWithCheck(newPost.getCsvToPost());
+        newPost.author = session("connected");
+        newPost.save();
         return redirect(routes.SimpleReleaseContoller.index());
     }
     
