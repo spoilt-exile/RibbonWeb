@@ -41,6 +41,11 @@ public final class MiniGate {
     public static GateWorker gate = new GateWorker();
     
     /**
+     * Sender for messages.
+     */
+    public static SenderThread sender;
+    
+    /**
      * Initialization thread run flag.
      */
     private static Boolean initRun = false;
@@ -104,6 +109,8 @@ public final class MiniGate {
                         //Completing initialization
                         isGateReady = true;
                         initRun = false;
+                        sender = new SenderThread();
+                        sender.start();
                         break;
                     }
                 }

@@ -47,6 +47,7 @@ public class SimpleReleaseContoller extends Controller {
         //String postErr = MiniGate.gate.sendCommandWithCheck(newPost.getCsvToPost());
         newPost.author = session("connected");
         newPost.save();
+        MiniGate.sender.interrupt();
         return redirect(routes.SimpleReleaseContoller.index());
     }
     

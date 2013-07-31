@@ -214,7 +214,7 @@ public class GateWorker extends Thread{
             respond = collectBuf.toString();
             collectBuf = new StringBuffer();
         }
-        if (respond.startsWith("OK:")) {
+        if (respond.startsWith("OK:") || respond.startsWith("PROCEED:")) {
             return null;
         } else if (respond.startsWith("RIBBON_ERROR")){
             return respond.substring(respond.indexOf(':') + 1);
