@@ -27,7 +27,7 @@ public class LoginController extends Controller {
             if (session("connected") != null) {
                 return redirect(routes.SimpleReleaseContoller.index());
             } else {
-                return ok(login.render("Вхід до системи...", null));
+                return ok(login.render("Вхід до системи..."));
             }
         }
     }
@@ -36,7 +36,7 @@ public class LoginController extends Controller {
         if (!MiniGate.isGateReady) {
             return ok(ribbon_error.render(MiniGate.gateErrorStr));
         } else {
-            return ok(login.render("Вхід до системи...", error));
+            return ok(login.render("Вхід до системи..."));
         }
     }
     
@@ -47,7 +47,8 @@ public class LoginController extends Controller {
             session("connected", newSession.username);
             return redirect(routes.SimpleReleaseContoller.index());
         } else {
-            return redirect(routes.LoginController.index_with_error(loginErr));
+            flash("err_login", loginErr);
+            return redirect(routes.LoginController.index());
         }
     }
     

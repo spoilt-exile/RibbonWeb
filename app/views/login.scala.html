@@ -1,11 +1,9 @@
-@(message: String, err_message: String)
+@(message: String)
 
 @main(message) {
     
     <div align=center>
-    	@if(err_message != null) {
-    		<font color="red">@err_message</font>
-    	}
+        <font color="red">@flash.remove("err_login")</font>
     	<form action="/login" method="post">
     		<b>Ім'я користувача:</b><br>
     		<input type="text" name="username"><br>
