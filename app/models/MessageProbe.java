@@ -37,10 +37,10 @@ public class MessageProbe extends Model {
     public String id;
     
     /**
-     * Header of message.
+     * Header of message (max = 250 chars).
      */
     @NotNull
-    @Length(max=450)
+    @Length(max=500)
     public String header;
     
     /**
@@ -52,27 +52,30 @@ public class MessageProbe extends Model {
     public java.util.Date date = new java.util.Date();
     
     /**
-     * Pseudo directory to post.
+     * Pseudo directory to post (max = 100 chars).
      */
     @NotNull
+    @Length(max=100)
     public String pseudo_dir = "Тест";
     
     /**
-     * Tags of message.
+     * Tags of message (max = 100 chars).
      */
+    @Length(max=200)
     public String tags;
     
     /**
-     * Content of message.
+     * Content of message (max = 2M chars).
      */
     @NotNull
     @Length(max=4000000)
     public String content;
     
     /**
-     * Author of this message.
+     * Author of this message (max = 100 chars).
      */
     @NotNull
+    @Length(max=200)
     public String author;
     
     /**

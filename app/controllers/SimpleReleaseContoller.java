@@ -47,7 +47,9 @@ public class SimpleReleaseContoller extends Controller {
         models.MessageProbe newPost = Form.form(models.MessageProbe.class).bindFromRequest().get();
         newPost.author = session("connected");
         newPost.save();
-        MiniGate.sender.interrupt();
+        if(MiniGate.sender != null) {
+            MiniGate.sender.interrupt();
+        }
         return redirect(routes.SimpleReleaseContoller.index());
     }
     
