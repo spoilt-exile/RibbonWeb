@@ -26,7 +26,10 @@ import views.html.*;
 import views.html.defaultpages.error;
 
 import play.data.*;
+import play.db.ebean.Model;
 import static play.mvc.Controller.session;
+
+import java.util.List;
 
 /**
  *
@@ -35,6 +38,16 @@ import static play.mvc.Controller.session;
 public class SimpleReleaseContoller extends Controller {
     
     public static Result index() {
+        if (session("connected") != null) {
+            List<models.MessageProbe> probs = new Model.Finder(String.class, models.MessageProbe.class).where().eq("author", session("connected")).findList();
+            return ok(post_list.render(probs));
+        } else {
+            flash("err_login", "Ви повинні зареєструватись!");
+            return redirect(routes.LoginController.index());
+        }
+    }
+    
+    public static Result postForm() {
         if (session("connected") != null) {
             return ok(simple_release.render());
         } else {

@@ -116,6 +116,17 @@ public class MessageProbe extends Model {
     public String curr_error = null;
     
     /**
+     * Get formatted date as string.
+     * @param format date specific format;
+     * @return formatted string;
+     */
+    public String getDateWithFormat(String format) {
+        java.text.DateFormat dateFormat = new java.text.SimpleDateFormat(format);
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
+    
+    /**
      * Get message probe CSV representation for post to the system.
      * @return formatted to CSV command;
      */

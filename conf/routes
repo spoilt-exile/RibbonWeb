@@ -6,7 +6,9 @@
 GET     /                           controllers.LoginController.index()
 POST	/login                      controllers.LoginController.login()
 GET     /logout                     controllers.LoginController.logout()
-GET     /simple_release             controllers.SimpleReleaseContoller.index()
+
+GET     /post_list                  controllers.SimpleReleaseContoller.index()
+GET     /simple_release             controllers.SimpleReleaseContoller.postForm()
 POST    /simple_release             controllers.SimpleReleaseContoller.post()
 
 # Map static resources from the /public folder to the /assets URL path
