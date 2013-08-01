@@ -121,11 +121,11 @@ public final class MiniGate {
              * @param error string representation of error
              */
             private void setError(String error) {
-                System.out.println("ERR:" + error);
                 gate.closeGate();
                 gate = new GateWorker();
                 gateErrorStr = error;
                 initRun = false;
+                isGateReady = false;
                 try {
                     Thread.sleep(60 * 1000);
                 } catch (InterruptedException ex) {}
