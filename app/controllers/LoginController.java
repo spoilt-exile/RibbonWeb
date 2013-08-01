@@ -41,21 +41,13 @@ public class LoginController extends Controller {
 
     public static Result index() {
         if (!MiniGate.isGateReady) {
-            return ok(ribbon_error.render(MiniGate.gateErrorStr));
+            return redirect(routes.SimpleReleaseContoller.index());
         } else {
             if (session("connected") != null) {
-                return redirect(routes.SimpleReleaseContoller.index());
+                return ok(ribbon_error.render(MiniGate.gateErrorStr));
             } else {
                 return ok(login.render("Вхід до системи..."));
             }
-        }
-    }
-    
-    public static Result index_with_error(String error) {
-        if (!MiniGate.isGateReady) {
-            return ok(ribbon_error.render(MiniGate.gateErrorStr));
-        } else {
-            return ok(login.render("Вхід до системи..."));
         }
     }
     

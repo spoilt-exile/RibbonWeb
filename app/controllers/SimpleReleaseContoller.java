@@ -38,13 +38,13 @@ public class SimpleReleaseContoller extends Controller {
         if (session("connected") != null) {
             return ok(simple_release.render());
         } else {
-            return redirect(routes.LoginController.index_with_error("Ви повинні зарєєструватись!"));
+            flash("err_login", "Ви повинні зареєструватись!");
+            return redirect(routes.LoginController.index());
         }
     }
     
     public static Result post() {
         models.MessageProbe newPost = Form.form(models.MessageProbe.class).bindFromRequest().get();
-        //String postErr = MiniGate.gate.sendCommandWithCheck(newPost.getCsvToPost());
         newPost.author = session("connected");
         newPost.save();
         MiniGate.sender.interrupt();

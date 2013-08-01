@@ -25,9 +25,9 @@
         <font color="red">@flash.remove("err_login")</font>
     	<form action="/login" method="post">
     		<b>Ім'я користувача:</b><br>
-    		<input type="text" name="username"><br>
+                <input type="text" name="username" required><br>
     		<b>Пароль:</b><br>
-    		<input type="password" name="password"><br>
+    		<input type="password" name="password" required><br>
     		<input type="submit" value="Увійти">
     		<input type="reset" value="Збросити">
     	</form>
