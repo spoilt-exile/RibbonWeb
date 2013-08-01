@@ -1,0 +1,73 @@
+@**
+ * This file is part of RibbonWeb application (check README).
+ * Copyright (C) 2012-2013 Stanislav Nepochatov
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+**@
+
+@(probeList: List[MessageProbe])
+
+@main("Лист повідомлень користувача " + session.get("connected")) {
+    <a href=@routes.SimpleReleaseContoller.postForm()>Випустити нове повідомлення</a><br><br>
+    Кількість повідомлень: @probeList.size()<br><br>
+    <div align="center">
+    <table border="1">
+        <tr bgcolor="#5990d9">
+            <td>Заголовок</td>
+            <td>Дата і час</td>
+            <td>Псевдонапрямок</td>
+            <td>Теги</td>
+            <td>Статус</td>
+            <td colspan="3">Операції</td>
+        </tr>
+        @for(currProbe <- probeList) {
+            <tr>
+                <td><span class="strong">@currProbe.header</span></td>
+                <td><span class="select">@currProbe.getDateWithFormat("HH:mm:ss dd.MM.yyyy")</span></td>
+                <td><span class="red-text">@currProbe.pseudo_dir</span></td>
+                <td>@currProbe.tags</td>
+                <td>
+                    @currProbe.curr_status match {
+                        case MessageProbe.STATUS.NEW => {
+                            НОВЕ
+                        }
+                        
+                        case MessageProbe.STATUS.POSTED => {
+                            <span class="green-text">ВИПУЩЕНО</span>
+                        }
+                        
+                        case MessageProbe.STATUS.WITH_ERROR => {
+                            <span class="red-text">ПОМИЛКА</span>
+                        }
+                        
+                        case MessageProbe.STATUS.DELETED => {
+                            ВИДАЛЕНО
+                        }
+                    }
+                </td>
+                <td>
+                    [Перегляд]
+                </td>
+                <td>
+                    [Редагувати]
+                </td>
+                <td>
+                    [Видалити]
+                </td>
+            </tr>
+        }
+    </table>
+    </div>
+}
