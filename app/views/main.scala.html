@@ -31,6 +31,24 @@
     <body>
     <div class="m-header">Веб-інтерфейс системи "Стрічка"</div>
     <br>
+    <table width="100%" border=0>
+    <tr>
+    <td>
+    @if(MiniGate.isGateReady) {
+        <span class="strong">
+        <span class="green-text">
+        Система працює у штатному режимі.
+        </span>
+        </span>
+    } else {
+        <span class="strong">
+        <span class="red-text">
+        Сервер повідомлень не відповідає, повідомлення будуть відправлені пізніше.
+        </span>
+        </span>
+    }
+    </td>
+    <td>
     <div align="right"><span class="strong">Вхід
     @if(session.get("connected") == null) {
         не виконано.</span>
@@ -38,6 +56,8 @@
         виконано: </span> <span class="select">@session.get("connected")</span> <a href="@routes.LoginController.logout()">[Вийти]</a> 
     }
     </div>
+    </td>
+    <table>
     <br><br>
         @content
     </body>
