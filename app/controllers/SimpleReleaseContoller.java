@@ -66,4 +66,9 @@ public class SimpleReleaseContoller extends Controller {
         return redirect(routes.SimpleReleaseContoller.index());
     }
     
+    public static Result viewPost(String id) {
+        models.MessageProbe probe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id);
+        return ok(post_view.render(probe));
+    }
+    
 }

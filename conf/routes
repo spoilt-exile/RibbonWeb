@@ -8,6 +8,7 @@ POST	/login                      controllers.LoginController.login()
 GET     /logout                     controllers.LoginController.logout()
 
 GET     /post_list                  controllers.SimpleReleaseContoller.index()
+GET     /post_view                  controllers.SimpleReleaseContoller.viewPost(id:String)
 GET     /simple_release             controllers.SimpleReleaseContoller.postForm()
 POST    /simple_release             controllers.SimpleReleaseContoller.post()
 
