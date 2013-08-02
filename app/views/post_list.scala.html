@@ -30,7 +30,7 @@
             <td>Псевдонапрямок</td>
             <td>Теги</td>
             <td>Статус</td>
-            <td colspan="3">Операції</td>
+            <td>Операції</td>
         </tr>
         @for(currProbe <- probeList) {
             <tr>
@@ -58,15 +58,20 @@
                     }
                 </td>
                 <td>
-                    [Перегляд]
-                </td>
-                <td>
-                    [Редагувати]
-                </td>
-                <td>
+                    [Перегляд] 
+                    [Редагувати] 
                     [Видалити]
                 </td>
             </tr>
+            @if(currProbe.curr_status == MessageProbe.STATUS.WITH_ERROR) {
+                <tr>
+                    <td align="center" colspan="6">
+                        <span class="red-text"><b>
+                        @currProbe.curr_error
+                        </b></span>
+                    </td>
+                </tr>
+            }
         }
     </table>
     </div>
