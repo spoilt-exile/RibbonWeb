@@ -1,0 +1,33 @@
+@(givenProbe: MessageProbe)
+
+@main("Перегляд повідомлення") {
+    <a href=@routes.SimpleReleaseContoller.index()>Повернутись</a><br><br>
+    <b>Заголовок: </b><i>@givenProbe.header</i><br>
+    <b>Дата і час створення: </b><i>@givenProbe.getDateWithFormat("HH:mm:ss dd.MM.yyyy")</i><br>
+    <b>Псевдонапрямок випуску: </b><i><span class="red-text">@givenProbe.pseudo_dir</span></i><br>
+    <b>Теги: </b><i><span class="blue-text">@givenProbe.tags</span></i><br>
+    <b>Статус: </b>
+        @givenProbe.curr_status match {
+            case MessageProbe.STATUS.NEW => {
+                НОВЕ<br>
+            }
+
+            case MessageProbe.STATUS.POSTED => {
+                <span class="green-text">ВИПУЩЕНО</span><br>
+            }
+
+            case MessageProbe.STATUS.WITH_ERROR => {
+                <span class="red-text">ПОМИЛКА: @givenProbe.curr_error</span><br>
+            }
+
+            case MessageProbe.STATUS.DELETED => {
+                ВИДАЛЕНО<br>
+            }
+        }
+
+    <br>
+    <b>© @givenProbe.author</b><br><br>
+    
+    <b>Зміст:</b><br>
+    @Html(givenProbe.content.replaceAll("\n", "<br>"))
+}
