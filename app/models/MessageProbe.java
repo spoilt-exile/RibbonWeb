@@ -131,6 +131,10 @@ public class MessageProbe extends Model {
      * @return formatted to CSV command;
      */
     public String getCsvToPost() {
-        return "RIBBON_POST_MESSAGE:-1,[СИСТЕМА.Тест],UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{}\n" + content + "\nEND:";
+        String compiledDate = this.getDateWithFormat("HH:mm:ss dd.MM.yyyy");
+        return "RIBBON_POST_MESSAGE_BY_PSEUDO:{" + this.pseudo_dir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
+                + "COPYRIGHT,{" + this.author + "},{" + this.author + "}," + compiledDate + "$"
+                + "PSEUDO_DIR,{" + this.author + "},{" + this.pseudo_dir + "}," + compiledDate
+                + "}\n" + content + "\nEND:";
     }
 }
