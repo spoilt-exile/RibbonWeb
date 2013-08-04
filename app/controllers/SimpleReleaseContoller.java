@@ -49,7 +49,7 @@ public class SimpleReleaseContoller extends Controller {
     
     public static Result postForm() {
         if (session("connected") != null) {
-            return ok(simple_release.render());
+            return ok(simple_release.render(models.PseudoDirectorySet.get(session("connected"))));
         } else {
             flash("err_login", "Ви повинні зареєструватись!");
             return redirect(routes.LoginController.index());

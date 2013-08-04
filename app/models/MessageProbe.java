@@ -56,7 +56,7 @@ public class MessageProbe extends Model {
      */
     @NotNull
     @Length(max=100)
-    public String pseudo_dir = "Тест";
+    public String psdir;
     
     /**
      * Tags of message (max = 100 chars).
@@ -132,9 +132,9 @@ public class MessageProbe extends Model {
      */
     public String getCsvToPost() {
         String compiledDate = this.getDateWithFormat("HH:mm:ss dd.MM.yyyy");
-        return "RIBBON_POST_MESSAGE_BY_PSEUDO:{" + this.pseudo_dir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
+        return "RIBBON_POST_MESSAGE_BY_PSEUDO:{" + this.psdir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
                 + "COPYRIGHT,{" + this.author + "},{" + this.author + "}," + compiledDate + "$"
-                + "PSEUDO_DIR,{" + this.author + "},{" + this.pseudo_dir + "}," + compiledDate
+                + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate
                 + "}\n" + content + "\nEND:";
     }
 }

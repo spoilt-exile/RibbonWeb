@@ -17,13 +17,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **@
 
-@main("Простий випуск на напрямок СИСТЕМА.ТЕСТ") {
+@(pseudoSet: models.PseudoDirectorySet)
+
+@main("Випуск повідомлення") {
     <div align="center">
     <form action="/simple_release" method="post">
         <span class="strong">Заголовок:</span><br>
         <input type="text" name="header" size="100" maxlength="250" required><br><br>
         <span class="strong">Теги (через кому):</span><br>
         <input type="text" name="tags" size="100" maxlength="100">
+        <br>
+        <span class="strong">Напрямок випуску:</span> 
+            <select name="psdir" required>
+                <option disabled>Оберіть напрямок</option>
+                @for(pseudoDir <- pseudoSet.getDirs()) {
+                    <option value=@pseudoDir>@pseudoDir - @pseudoSet.getDirDesc(pseudoDir)</option>
+                }
+            </select>
         <br>
         <br>
         <span class="strong">Зміст повідомлення:</span><br>

@@ -277,5 +277,18 @@ public class GateWorker extends Thread{
         }
         return buf.toString();
     }
+    
+    /**
+     * Send command with context switching and return answer from server;
+     * @param givenUser name form using context;
+     * @return answer from server.
+     */
+    public String sendCommandWithContextCollect(String givenUser, String givenCommand) {
+        String contextErr = this.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + givenUser + "}");
+        if (contextErr != null) {
+            return contextErr;
+        }
+        return this.sendCommandWithCollect(givenCommand);
+    }
 }
 
