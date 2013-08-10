@@ -20,9 +20,9 @@
 @(message: String)
 
 @main(message) {
-    
-    <div align=center>
+    <div align="center">
         <font color="red">@flash.remove("err_login")</font>
+    <div class="login-frame">
     	<form action="/login" method="post">
     		<b>Ім'я користувача:</b><br>
                 <input type="text" name="username" required><br>
@@ -32,5 +32,5 @@
     		<input type="reset" value="Збросити">
     	</form>
     </div>
-    
+    </div>
 }

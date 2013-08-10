@@ -23,14 +23,14 @@
     <a href=@routes.SimpleReleaseContoller.postForm()>Випустити нове повідомлення</a><br><br>
     Кількість повідомлень: @probeList.size()<br><br>
     <div align="center">
-    <table border="1">
-        <tr bgcolor="#5990d9">
-            <td>Заголовок</td>
-            <td>Дата і час</td>
-            <td>Псевдонапрямок</td>
-            <td>Теги</td>
-            <td>Статус</td>
-            <td>Операції</td>
+    <table align="center" border="1">
+        <tr bgcolor="#2d69aa">
+            <td><font color="white">Заголовок</font></td>
+            <td><font color="white">Дата і час</font></td>
+            <td><font color="white">Псевдонапрямок</font></td>
+            <td><font color="white">Теги</font></td>
+            <td><font color="white">Статус</font></td>
+            <td><font color="white">Операції</font></td>
         </tr>
         @for(currProbe <- probeList) {
             <tr>

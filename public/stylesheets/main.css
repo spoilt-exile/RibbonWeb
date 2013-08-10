@@ -1,6 +1,6 @@
 /** Body style override **/
 body {
-  	background-color: #cbcbcb;
+  	background-color: #ffffff;
   	margin: 12pt;
 }
 
@@ -66,4 +66,22 @@ body {
 	color: #b30000;
 	font-size: 18pt;
 	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+}
+
+.login-frame {
+        width: 250px;
+        color: #ffffff;
+        border: 1px solid #e51e1e;
+        border-radius: 9px;
+        padding: 5px 5px 5px;
+	background-color: #2d69aa;
+}
+
+.release-frame {
+        width: 1000px;
+        color: #ffffff;
+        border: 1px solid #e51e1e;
+        border-radius: 9px;
+        padding: 5px 5px 5px;
+	background-color: #2d69aa;
 }
