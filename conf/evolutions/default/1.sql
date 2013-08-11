@@ -11,6 +11,8 @@ create table message_probe (
   tags                      varchar(200),
   content                   varchar(4000000) not null,
   author                    varchar(200) not null,
+  ribbon_index              varchar(10),
+  editable                  boolean,
   curr_status               integer not null,
   curr_error                varchar(255),
   constraint ck_message_probe_curr_status check (curr_status in (0,1,2,3)),

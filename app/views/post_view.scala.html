@@ -3,6 +3,9 @@
 @main("Перегляд повідомлення") {
     <a href=@routes.SimpleReleaseContoller.index()>Повернутись</a><br><br>
     <b>Заголовок: </b><i>@givenProbe.header</i><br>
+    @if(givenProbe.ribbon_index != null) {
+        <b>Індекс у системі: </b><i>@givenProbe.ribbon_index</i><br>
+    }
     <b>Дата і час створення: </b><i>@givenProbe.getDateWithFormat("HH:mm:ss dd.MM.yyyy")</i><br>
     <b>Псевдонапрямок випуску: </b><i><span class="red-text">@givenProbe.psdir</span></i><br>
     <b>Теги: </b><i><span class="blue-text">@givenProbe.tags</span></i><br>

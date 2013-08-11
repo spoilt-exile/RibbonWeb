@@ -79,6 +79,17 @@ public class MessageProbe extends Model {
     public String author;
     
     /**
+     * Index of this message in the Ribbon System (optional).
+     */
+    @Length(max=10)
+    public String ribbon_index;
+    
+    /**
+     * Message is editable.
+     */
+    public Boolean editable = true;
+    
+    /**
      * Status of message processing stage.
      */
     public enum STATUS {
@@ -134,7 +145,8 @@ public class MessageProbe extends Model {
         String compiledDate = this.getDateWithFormat("HH:mm:ss dd.MM.yyyy");
         return "RIBBON_POST_MESSAGE_BY_PSEUDO:{" + this.psdir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
                 + "COPYRIGHT,{" + this.author + "},{" + this.author + "}," + compiledDate + "$"
-                + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate
+                + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate + "$"
+                + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate
                 + "}\n" + content + "\nEND:";
     }
 }

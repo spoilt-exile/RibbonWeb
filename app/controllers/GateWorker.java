@@ -19,6 +19,8 @@
 
 package controllers;
 
+import play.db.ebean.Model;
+
 /**
  * Gate connector thread class. This class is almost a copy 
  * of AppComponents.NetWorker class in libRibbonApp
@@ -92,11 +94,24 @@ public class GateWorker extends Thread{
      */
     public AppComponents.Listener[] getProtocol() {
         return new AppComponents.Listener[] {
+            
+            //Disable gate if server closing connection.
             new AppComponents.Listener("COMMIT_CLOSE") {
                 @Override
                 public void exec(String args) {
                     System.out.println("Завершення роботи гейта.");
                     isAlive = false;
+                }
+            },
+            
+            //Mark database message entry with server command.
+            new AppComponents.Listener("RIBBON_UCTL_LOAD_INDEX") {
+                @Override
+                public void exec(String args) {
+                    MessageClasses.MessageEntry currMessage = new MessageClasses.MessageEntry(args);
+                    models.MessageProbe gettedProbe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(currMessage.getProperty("REMOTE_ID").TEXT_MESSAGE);
+                    gettedProbe.ribbon_index = currMessage.INDEX;
+                    gettedProbe.update();
                 }
             }
         };

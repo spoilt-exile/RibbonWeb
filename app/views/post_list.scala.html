@@ -59,7 +59,9 @@
                 </td>
                 <td>
                     [<a href=@routes.SimpleReleaseContoller.viewPost(currProbe.id)>Перегляд</a>] 
-                    [Редагувати] 
+                    @if(currProbe.editable) { 
+                        [Редагувати] 
+                    }
                     [Видалити]
                 </td>
             </tr>
