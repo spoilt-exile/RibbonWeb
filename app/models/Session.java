@@ -82,4 +82,42 @@ public class Session extends Model {
      */
     @NotNull
     public STATUS currStatus = STATUS.ONLINE;
+    
+    /**
+     * First login of the user.
+     */
+    @NotNull
+    @Formats.DateTime(pattern="HH:mm:ss dd.MM.yyyy")
+    public java.util.Date firstLogin;
+    
+    /**
+     * Last or current login of the user.
+     */
+    @NotNull
+    @Formats.DateTime(pattern="HH:mm:ss dd.MM.yyyy")
+    public java.util.Date lastLogin;
+    
+    /**
+     * Fill other fields of this model.
+     */
+    public void init() {
+        firstLogin = new java.util.Date();
+        lastLogin = firstLogin;
+        java.util.ArrayList<String[]> parsed = Generic.CsvFormat.complexParseLine(controllers.MiniGate.gate.sendCommandWithContextReturn(this.username, "RIBBON_NCTL_GET_USERNAME:"), 2, 1);
+        this.description = parsed.get(0)[1];
+        for (String group: parsed.get(1)) {
+            if (group.equals("ADM")) {
+                this.isAdmin = true;
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Update this session from base.
+     */
+    public void pick() {
+        lastLogin = new java.util.Date();
+        currStatus = STATUS.ONLINE;
+    }
 }

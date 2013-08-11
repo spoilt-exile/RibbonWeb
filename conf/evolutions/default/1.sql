@@ -30,6 +30,8 @@ create table session (
   description               varchar(400) not null,
   is_admin                  boolean not null,
   curr_status               integer not null,
+  first_login               timestamp not null,
+  last_login                timestamp not null,
   constraint ck_session_curr_status check (curr_status in (0,1)),
   constraint pk_session primary key (id))
 ;

@@ -55,7 +55,12 @@
     @if(session.get("connected") == null) {
         не виконано.</span>
     } else {
-        виконано: </span> <span class="select">@session.get("connected")</span> <a href="@routes.LoginController.logout()">[Вийти]</a> 
+        виконано: </span> <span class="select">@session.get("connected")</span> 
+                @if(session.get("admin") != null) {
+                    <a href="@routes.AdmController.index()">[Керування]</a> 
+                }
+                <a href="@routes.SimpleReleaseContoller.index()">[Повідомлення]</a>
+                <a href="@routes.LoginController.logout()">[Вийти]</a> 
     }
     </div>
     </td>

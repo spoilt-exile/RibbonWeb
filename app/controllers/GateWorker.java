@@ -230,6 +230,7 @@ public class GateWorker extends Thread{
      * @return all lines to END:;
      */
     public String sendCommandWithCollect(String givenCommand) {
+        System.out.println(givenCommand);
         String respond;
         this.collectState = 2;
         outStream.println(givenCommand);
@@ -289,6 +290,19 @@ public class GateWorker extends Thread{
             return contextErr;
         }
         return this.sendCommandWithCollect(givenCommand);
+    }
+    
+    /**
+     * Send command with context switching and return answer from server;
+     * @param givenUser name form using context;
+     * @return answer from server.
+     */
+    public String sendCommandWithContextReturn(String givenUser, String givenCommand) {
+        String contextErr = this.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + givenUser + "}");
+        if (contextErr != null) {
+            return contextErr;
+        }
+        return this.sendCommandWithReturn(givenCommand);
     }
 }
 

@@ -25,6 +25,7 @@ import play.mvc.*;
 import views.html.*;
 import views.html.defaultpages.error;
 
+import play.db.ebean.*;
 import play.data.*;
 import static play.mvc.Controller.session;
 
@@ -56,6 +57,18 @@ public class LoginController extends Controller {
     	models.Session newSession = Form.form(models.Session.class).bindFromRequest().get();
         String loginErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_REM_LOGIN:{" + newSession.username + "}," + MiniGate.getHash(newSession.password));
         if (loginErr == null) {
+            models.Session gettedSes = (models.Session) new Model.Finder(String.class, models.Session.class).where().eq("username", newSession.username).findUnique();
+            if (gettedSes == null) {
+                newSession.init();
+                newSession.save();
+            } else {
+                gettedSes.pick();
+                gettedSes.update();
+                newSession = gettedSes;
+            }
+            if (newSession.isAdmin) {
+                session("admin", "true");
+            }
             session("connected", newSession.username);
             return redirect(routes.SimpleReleaseContoller.index());
         } else {
@@ -66,6 +79,7 @@ public class LoginController extends Controller {
     
     public static Result logout() {
         session().remove("connected");
+        session().remove("admin");
         return redirect(routes.LoginController.index());
     }
   
