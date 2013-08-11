@@ -62,7 +62,7 @@
                     @if(currProbe.editable) { 
                         [Редагувати] 
                     }
-                    [Видалити]
+                    [<a href=@routes.SimpleReleaseContoller.deletePost(currProbe.id) onclick="return confirm('Видалити повідомлення \'@currProbe.header\' ?\n\nУВАГА: Якщо повідомлення не має статусу ВИПУЩЕНО, то воно не потрапить у систему!')">Видалити</a>]
                 </td>
             </tr>
             @if(currProbe.curr_status == MessageProbe.STATUS.WITH_ERROR) {

@@ -71,4 +71,10 @@ public class SimpleReleaseContoller extends Controller {
         return ok(post_view.render(probe));
     }
     
+    public static Result deletePost(String id) {
+        models.MessageProbe probe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id);
+        probe.delete();
+        return redirect(routes.SimpleReleaseContoller.index());
+    }
+    
 }

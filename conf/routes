@@ -11,6 +11,7 @@ GET     /post_list                  controllers.SimpleReleaseContoller.index()
 GET     /post_view                  controllers.SimpleReleaseContoller.viewPost(id:String)
 GET     /simple_release             controllers.SimpleReleaseContoller.postForm()
 POST    /simple_release             controllers.SimpleReleaseContoller.post()
+GET     /delete_post                controllers.SimpleReleaseContoller.deletePost(id:String)
 
 GET     /admin                      controllers.AdmController.index()
 
