@@ -26,8 +26,11 @@ create table pseudo_directory_set (
 
 create table session (
   id                        varchar(255) not null,
-  username                  varchar(255),
-  password                  varchar(255),
+  username                  varchar(200) not null,
+  description               varchar(400) not null,
+  is_admin                  boolean not null,
+  curr_status               integer not null,
+  constraint ck_session_curr_status check (curr_status in (0,1)),
   constraint pk_session primary key (id))
 ;
 

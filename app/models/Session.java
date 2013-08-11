@@ -23,6 +23,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.*;
+import com.avaje.ebean.validation.*;
+import play.data.format.*;
 
 /**
  * Session model class.
@@ -34,10 +36,50 @@ public class Session extends Model {
     @Id
     public String id;
     
-    //@Required
+    /**
+     * Name of the user.
+     */
+    @NotNull
+    @Length(max=200)
     public String username;
     
-    //@Required
-    public String password;
+    /**
+     * Description of that user (department, phone and etc).
+     */
+    @NotNull
+    @Length(max=400)
+    public String description;
     
+    /**
+     * Display is user have administrative access to the system.
+     */
+    @NotNull
+    public boolean isAdmin;
+
+    /**
+     * Raw password, excluded from saving.
+     */
+    public transient String password;
+    
+    /**
+     * Enum of user statuses.
+     */
+    public enum STATUS {
+        
+        /**
+         * User is online.
+         */
+        ONLINE,
+        
+        /**
+         * User is offline.
+         */
+        OFFLINE
+    }
+    
+    /**
+     * Current status of user.
+     */
+    @NotNull
+    public STATUS currStatus = STATUS.ONLINE;
 }
