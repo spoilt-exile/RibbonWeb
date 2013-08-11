@@ -85,9 +85,31 @@ public class MessageProbe extends Model {
     public String ribbon_index;
     
     /**
+     * Message probe edit feature status.
+     */
+    public enum EDIT_STATUS {
+        
+        /**
+         * Edit disable by the system.
+         */
+        DISABLE,
+        
+        /**
+         * Message has been edited by this webUI: 
+         * protocol handler will restore status.
+         */
+        WAITED,
+        
+        /**
+         * Message may be edited by user.
+         */
+        EDITABLE
+    }
+    
+    /**
      * Message is editable.
      */
-    public Boolean editable = true;
+    public EDIT_STATUS currEditStatus = EDIT_STATUS.EDITABLE;
     
     /**
      * Status of message processing stage.

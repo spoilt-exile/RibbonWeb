@@ -12,9 +12,10 @@ create table message_probe (
   content                   varchar(4000000) not null,
   author                    varchar(200) not null,
   ribbon_index              varchar(10),
-  editable                  boolean,
+  curr_edit_status          integer,
   curr_status               integer not null,
   curr_error                varchar(255),
+  constraint ck_message_probe_curr_edit_status check (curr_edit_status in (0,1,2)),
   constraint ck_message_probe_curr_status check (curr_status in (0,1,2,3)),
   constraint pk_message_probe primary key (id))
 ;
