@@ -73,7 +73,11 @@ public class SimpleReleaseContoller extends Controller {
     
     public static Result deletePost(String id) {
         models.MessageProbe probe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id);
-        probe.delete();
+        probe.curr_status = models.MessageProbe.STATUS.DELETED;
+        probe.update();
+        if(MiniGate.sender != null) {
+            MiniGate.sender.interrupt();
+        }
         return redirect(routes.SimpleReleaseContoller.index());
     }
     

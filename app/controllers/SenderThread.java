@@ -46,21 +46,25 @@ public class SenderThread extends Thread {
     private void postMessages() {
         List<models.MessageProbe> probes = new Model.Finder(String.class, models.MessageProbe.class).where().ne("curr_status", 1).findList();
         for (models.MessageProbe currProbe : probes) {
-            String contextErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + currProbe.author + "}");
-            if (contextErr != null) {
-                currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
-                currProbe.curr_error = contextErr;
-                currProbe.update();
-            } else {
-                String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToPost());
-                if (postErr != null) {
+            if ((currProbe.curr_status == models.MessageProbe.STATUS.WITH_ERROR) || (currProbe.curr_status == models.MessageProbe.STATUS.NEW)) {
+                String contextErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + currProbe.author + "}");
+                if (contextErr != null) {
                     currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
-                    currProbe.curr_error = postErr;
+                    currProbe.curr_error = contextErr;
+                    currProbe.update();
                 } else {
-                    currProbe.curr_status = models.MessageProbe.STATUS.POSTED;
-                    currProbe.curr_error = null;
+                    String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToPost());
+                    if (postErr != null) {
+                        currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                        currProbe.curr_error = postErr;
+                    } else {
+                        currProbe.curr_status = models.MessageProbe.STATUS.POSTED;
+                        currProbe.curr_error = null;
+                    }
+                    currProbe.update();
                 }
-                currProbe.update();
+            } else if (currProbe.curr_status == models.MessageProbe.STATUS.DELETED) {
+                currProbe.delete();
             }
         }
     }
