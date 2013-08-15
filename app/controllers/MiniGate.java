@@ -49,13 +49,6 @@ public final class MiniGate {
      * Initialization thread run flag.
      */
     private static Boolean initRun = false;
-    
-    /**
-     * Static initiation at server start.
-     */
-    static {
-        init();
-    }
 
     /**
      * Init connection to the server.
