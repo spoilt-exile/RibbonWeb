@@ -109,9 +109,35 @@ public class GateWorker extends Thread{
                 @Override
                 public void exec(String args) {
                     MessageClasses.MessageEntry currMessage = new MessageClasses.MessageEntry(args);
-                    models.MessageProbe gettedProbe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(currMessage.getProperty("REMOTE_ID").TEXT_MESSAGE);
-                    gettedProbe.ribbon_index = currMessage.INDEX;
-                    gettedProbe.update();
+                        if (currMessage.getProperty("REMOTE_ID") != null) {
+                        models.MessageProbe gettedProbe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(currMessage.getProperty("REMOTE_ID").TEXT_MESSAGE);
+                        if (gettedProbe != null) {
+                            gettedProbe.ribbon_index = currMessage.INDEX;
+                            gettedProbe.update();
+                        }
+                    }
+                    models.MessageProbe gettedProbe2 = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).where().eq("ribbon_index", currMessage.ORIG_INDEX).findUnique();
+                    if (gettedProbe2 != null) {
+                        gettedProbe2.curr_status = models.MessageProbe.STATUS.ACCEPTED;
+                        gettedProbe2.update();
+                    }
+                }
+            },
+            
+            new AppComponents.Listener("RIBBON_UCTL_UPDATE_INDEX") {
+                @Override
+                public void exec(String args) {
+                    MessageClasses.MessageEntry currMessage = new MessageClasses.MessageEntry(args);
+                    models.MessageProbe gettedProbe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).where().eq("ribbon_index", currMessage.INDEX).findUnique();
+                    if (gettedProbe != null) {
+                        if (gettedProbe.curr_status == models.MessageProbe.STATUS.WAIT_CONFIRM) {
+                            gettedProbe.curr_status = models.MessageProbe.STATUS.POSTED;
+                            gettedProbe.update(); 
+                        } else {
+                            gettedProbe.curr_status = models.MessageProbe.STATUS.ACCEPTED;
+                            gettedProbe.update(); 
+                        }
+                    }
                 }
             }
         };
