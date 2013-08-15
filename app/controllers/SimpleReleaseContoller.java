@@ -49,7 +49,7 @@ public class SimpleReleaseContoller extends Controller {
     
     public static Result postForm() {
         if (session("connected") != null) {
-            return ok(simple_release.render(models.PseudoDirectorySet.get(session("connected"))));
+            return ok(simple_release.render(models.PseudoDirectorySet.get(session("connected")), null));
         } else {
             flash("err_login", "Ви повинні зареєструватись!");
             return redirect(routes.LoginController.index());
@@ -69,6 +69,19 @@ public class SimpleReleaseContoller extends Controller {
     public static Result viewPost(String id) {
         models.MessageProbe probe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id);
         return ok(post_view.render(probe));
+    }
+    
+    public static Result editForm(String id) {
+        if (session("connected") != null) {
+            return ok(simple_release.render(models.PseudoDirectorySet.get(session("connected")), (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id)));
+        } else {
+            flash("err_login", "Ви повинні зареєструватись!");
+            return redirect(routes.LoginController.index());
+        }
+    }
+    
+    public static Result edit() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public static Result deletePost(String id) {

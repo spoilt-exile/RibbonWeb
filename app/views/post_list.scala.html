@@ -72,7 +72,7 @@
                 <td>
                     [<a href=@routes.SimpleReleaseContoller.viewPost(currProbe.id)>Перегляд</a>] 
                     @if(currProbe.curr_status != MessageProbe.STATUS.ACCEPTED) { 
-                        [Редагувати] 
+                        [<a href=@routes.SimpleReleaseContoller.editForm(currProbe.id)>Редагувати</a>] 
                     }
                     [<a href=@routes.SimpleReleaseContoller.deletePost(currProbe.id) onclick="return confirm('Видалити повідомлення \'@currProbe.header\' ?\n\nУВАГА: Якщо повідомлення не має статусу ВИПУЩЕНО, то воно не потрапить у систему!')">Видалити</a>]
                 </td>
