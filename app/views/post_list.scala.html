@@ -52,6 +52,18 @@
                             <span class="red-text">ПОМИЛКА</span>
                         }
                         
+                        case MessageProbe.STATUS.EDITED => {
+                            НОВЕ РЕДАГУВАННЯ
+                        }
+                        
+                        case MessageProbe.STATUS.WAIT_CONFIRM => {
+                            <span class="green-text"ПРИЙНЯТТЯ РЕДАГУВАННЯ</span>
+                        }
+                        
+                        case MessageProbe.STATUS.ACCEPTED => {
+                             <span class="red-text">ПРИЙНЯТО</span>
+                        }
+                        
                         case MessageProbe.STATUS.DELETED => {
                             ВИДАЛЕНО
                         }
@@ -59,7 +71,7 @@
                 </td>
                 <td>
                     [<a href=@routes.SimpleReleaseContoller.viewPost(currProbe.id)>Перегляд</a>] 
-                    @if(currProbe.currEditStatus == MessageProbe.EDIT_STATUS.EDITABLE) { 
+                    @if(currProbe.curr_status != MessageProbe.STATUS.ACCEPTED) { 
                         [Редагувати] 
                     }
                     [<a href=@routes.SimpleReleaseContoller.deletePost(currProbe.id) onclick="return confirm('Видалити повідомлення \'@currProbe.header\' ?\n\nУВАГА: Якщо повідомлення не має статусу ВИПУЩЕНО, то воно не потрапить у систему!')">Видалити</a>]

@@ -85,33 +85,6 @@ public class MessageProbe extends Model {
     public String ribbon_index;
     
     /**
-     * Message probe edit feature status.
-     */
-    public enum EDIT_STATUS {
-        
-        /**
-         * Edit disable by the system.
-         */
-        DISABLE,
-        
-        /**
-         * Message has been edited by this webUI: 
-         * protocol handler will restore status.
-         */
-        WAITED,
-        
-        /**
-         * Message may be edited by user.
-         */
-        EDITABLE
-    }
-    
-    /**
-     * Message is editable.
-     */
-    public EDIT_STATUS currEditStatus = EDIT_STATUS.EDITABLE;
-    
-    /**
      * Status of message processing stage.
      */
     public enum STATUS {
@@ -130,6 +103,21 @@ public class MessageProbe extends Model {
          * Not posted, get error: notify user.
          */
         WITH_ERROR,
+        
+        /**
+         * Edited by user (require processing).
+         */
+        EDITED,
+        
+        /**
+         * Edition processed and wait for confirm.
+         */
+        WAIT_CONFIRM,
+        
+        /**
+         * Edited by other user in the system, author cann't edit message with this status.
+         */
+        ACCEPTED,
         
         /**
          * Marked to delete from database: will delete soon.
@@ -170,5 +158,13 @@ public class MessageProbe extends Model {
                 + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate + "$"
                 + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate
                 + "}\n" + content + "\nEND:";
+    }
+    
+    /**
+     * Get message probe CSV representation for modify existing message.
+     * @return formatted string;
+     */
+    public String getCsvToModify() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
