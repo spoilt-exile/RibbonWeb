@@ -73,7 +73,12 @@ public class SimpleReleaseContoller extends Controller {
     
     public static Result editForm(String id) {
         if (session("connected") != null) {
-            return ok(simple_release.render(models.PseudoDirectorySet.get(session("connected")), (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id)));
+            models.MessageProbe editProbe = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(id);
+            if (editProbe.curr_status == models.MessageProbe.STATUS.ACCEPTED) {
+                return redirect(routes.SimpleReleaseContoller.index());
+            } else {
+                return ok(simple_release.render(models.PseudoDirectorySet.get(session("connected")), editProbe));
+            }
         } else {
             flash("err_login", "Ви повинні зареєструватись!");
             return redirect(routes.LoginController.index());
