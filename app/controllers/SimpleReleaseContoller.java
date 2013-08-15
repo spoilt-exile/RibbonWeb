@@ -81,7 +81,16 @@ public class SimpleReleaseContoller extends Controller {
     }
     
     public static Result edit() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        models.MessageProbe editPost = Form.form(models.MessageProbe.class).bindFromRequest().get();
+        models.MessageProbe oldPost = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(editPost.id);
+        editPost.author = session("connected");
+        editPost.curr_status = models.MessageProbe.STATUS.EDITED;
+        editPost.ribbon_index = oldPost.ribbon_index;
+        editPost.update();
+        if(MiniGate.sender != null) {
+            MiniGate.sender.interrupt();
+        }
+        return redirect(routes.SimpleReleaseContoller.index());
     }
     
     public static Result deletePost(String id) {

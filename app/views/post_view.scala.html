@@ -22,6 +22,18 @@
             case MessageProbe.STATUS.WITH_ERROR => {
                 <span class="red-text">ПОМИЛКА: @givenProbe.curr_error</span><br>
             }
+            
+            case MessageProbe.STATUS.EDITED => {
+                НОВЕ РЕДАГУВАННЯ
+            }
+
+            case MessageProbe.STATUS.WAIT_CONFIRM => {
+                <span class="red-text">ПРИЙНЯТТЯ РЕДАГУВАННЯ</span>
+            }
+
+            case MessageProbe.STATUS.ACCEPTED => {
+                 <span class="green-text">ПРИЙНЯТО</span>
+            }
 
             case MessageProbe.STATUS.DELETED => {
                 ВИДАЛЕНО<br>

@@ -24,12 +24,12 @@
     <div class="release-frame">
     <form @if(currMessage!=null) {action=@routes.SimpleReleaseContoller.edit()} else {action=@routes.SimpleReleaseContoller.post()} method="post">
         @if(currMessage!=null) {
-            <impit type="hidden" name="id" value=@currMessage.id>
+            <input type="hidden" name="id" value="@currMessage.id">
         }
         <span class="strong">Заголовок:</span><br>
-        <input type="text" name="header" size="100" maxlength="250" required @if(currMessage!=null) {value=@currMessage.header}><br><br>
+        <input type="text" name="header" size="100" maxlength="250" required @if(currMessage!=null) {value="@currMessage.header"}><br><br>
         <span class="strong">Теги (через кому):</span><br>
-        <input type="text" name="tags" size="100" maxlength="100" @if(currMessage!=null) {value=@currMessage.tags}>
+        <input type="text" name="tags" size="100" maxlength="100" @if(currMessage!=null) {value="@currMessage.tags"}>
         <br>
         <span class="strong">Напрямок випуску:</span> 
             <select name="psdir" required>

@@ -65,6 +65,23 @@ public class SenderThread extends Thread {
                 }
             } else if (currProbe.curr_status == models.MessageProbe.STATUS.DELETED) {
                 currProbe.delete();
+            } else if (currProbe.curr_status == models.MessageProbe.STATUS.EDITED) {
+                String contextErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + currProbe.author + "}");
+                if (contextErr != null) {
+                    currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                    currProbe.curr_error = contextErr;
+                    currProbe.update();
+                } else {
+                    String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToModify());
+                    if (postErr != null) {
+                        currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                        currProbe.curr_error = postErr;
+                    } else {
+                        currProbe.curr_status = models.MessageProbe.STATUS.WAIT_CONFIRM;
+                        currProbe.curr_error = null;
+                    }
+                    currProbe.update();
+                }
             }
         }
     }

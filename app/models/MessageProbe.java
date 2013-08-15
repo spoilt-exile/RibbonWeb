@@ -165,6 +165,11 @@ public class MessageProbe extends Model {
      * @return formatted string;
      */
     public String getCsvToModify() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String compiledDate = this.getDateWithFormat("HH:mm:ss dd.MM.yyyy");
+        return "RIBBON_MODIFY_MESSAGE_BY_PSEUDO:" + this.ribbon_index + ",{" + this.psdir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
+                + "COPYRIGHT,{" + this.author + "},{" + this.author + "}," + compiledDate + "$"
+                + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate + "$"
+                + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate
+                + "}\n" + content + "\nEND:";
     }
 }
