@@ -39,7 +39,7 @@ public class SimpleReleaseContoller extends Controller {
     
     public static Result index() {
         if (session("connected") != null) {
-            List<models.MessageProbe> probs = new Model.Finder(String.class, models.MessageProbe.class).where().eq("author", session("connected")).findList();
+            List<models.MessageProbe> probs = new Model.Finder(String.class, models.MessageProbe.class).where().eq("author", session("connected")).orderBy("id desc").findList();
             return ok(post_list.render(probs));
         } else {
             flash("err_login", "Ви повинні зареєструватись!");
