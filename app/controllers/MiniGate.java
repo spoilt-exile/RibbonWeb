@@ -19,6 +19,8 @@
 
 package controllers;
 
+import play.db.ebean.Model;
+
 /**
  * Basic Ribbon gate prototype implementation.
  * @author Stanislav Nepochatov <spoilt.exile@gmail.com>
@@ -46,6 +48,11 @@ public final class MiniGate {
     public static SenderThread sender;
     
     /**
+     * Current configuration of the server.
+     */
+    public static models.ServerConfig currConfig;
+    
+    /**
      * Initialization thread run flag.
      */
     private static Boolean initRun = false;
@@ -58,13 +65,17 @@ public final class MiniGate {
         if (isGateReady || initRun) {
             return;
         }
+        currConfig = new Model.Finder(String.class, models.ServerConfig.class).where().eq("curr_status", 2).findUnique();
+        if (currConfig == null) {
+            return;
+        }
         new Thread() {
             @Override
             public void run() {
                 initRun = true;
                 while (true) {
                     //Try to set up sockets.
-                    gate.tryConnect();
+                    gate.tryConnect(currConfig.address, currConfig.port);
                     //If sockets initiation failed -> sleep 60 sec and return to begin of cycle
                     if (!gate.isAlive) {
                         try {
@@ -85,7 +96,7 @@ public final class MiniGate {
                         //Handling login error
                         //Gate connection must be logined in order to use remote mode of connection
                         //When occurred: when you try to login invalid user or login with invalid password
-                        String loginErr = gate.sendCommandWithCheck("RIBBON_NCTL_LOGIN:{root},63a9f0ea7bb98050796b649e85481845");
+                        String loginErr = gate.sendCommandWithCheck("RIBBON_NCTL_LOGIN:{" + currConfig.ruser + "}," + currConfig.hpass);
                         if (loginErr != null) {
                             setError(loginErr);
                             continue;

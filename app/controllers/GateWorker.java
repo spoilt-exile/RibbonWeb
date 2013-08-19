@@ -76,12 +76,14 @@ public class GateWorker extends Thread{
     private final Object collectLock = new Object();
     
     /**
-     * Try connect to server;
+     * Try connect to server.
+     * @param givenAddress address to connect;
+     * @param givenPort port to connect;
      */
-    public void tryConnect() {
+    public void tryConnect(String givenAddress, Integer givenPort) {
         this.NetListeners = getProtocol();
         try {
-            clientSocket = new java.net.Socket("127.0.0.1", 3003);
+            clientSocket = new java.net.Socket(givenAddress, givenPort);
             inStream = new java.io.BufferedReader(new java.io.InputStreamReader(clientSocket.getInputStream(), "UTF-8"));
             outStream = new java.io.PrintWriter(clientSocket.getOutputStream(), true);
             isAlive = true;
