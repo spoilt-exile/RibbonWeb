@@ -28,16 +28,31 @@ import play.db.ebean.Model;
  */
 public class SenderThread extends Thread {
     
+    /**
+     * Lock for beetween this thread and 
+     */
+    private Object dataLock = new Object();
+    
     @Override
     public void run() {
         while (MiniGate.isGateReady) {
-            postMessages();
+            synchronized (dataLock) {
+                postMessages();
+            }
             try {
                 Thread.sleep(30 * 1000);
             } catch (InterruptedException ex) {
                 //Do nothing just postMessages()
             }
         }
+    }
+    
+    /**
+     * Get lock for data.
+     * @return lock object;
+     */
+    public Object getLock() {
+        return dataLock;
     }
     
     /**
