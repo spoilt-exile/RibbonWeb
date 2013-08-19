@@ -79,8 +79,10 @@ public class LoginController extends Controller {
     
     public static Result logout() {
         models.Session gettedSes = (models.Session) new Model.Finder(String.class, models.Session.class).where().eq("username", session("connected")).findUnique();
-        gettedSes.currStatus = models.Session.STATUS.OFFLINE;
-        gettedSes.update();
+        if (gettedSes != null) {
+            gettedSes.currStatus = models.Session.STATUS.OFFLINE;
+            gettedSes.update();
+        }
         session().remove("connected");
         session().remove("admin");
         return redirect(routes.LoginController.index());
