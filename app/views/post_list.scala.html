@@ -23,70 +23,74 @@
     <a href=@routes.SimpleReleaseContoller.postForm()>Випустити нове повідомлення</a><br><br>
     Кількість повідомлень: @probeList.size()<br><br>
     <div align="center">
-    <table align="center" border="1">
-        <tr bgcolor="#2d69aa">
-            <td><font color="white">Заголовок</font></td>
-            <td><font color="white">Дата і час</font></td>
-            <td><font color="white">Псевдонапрямок</font></td>
-            <td><font color="white">Теги</font></td>
-            <td><font color="white">Статус</font></td>
-            <td><font color="white">Операції</font></td>
-        </tr>
-        @for(currProbe <- probeList) {
-            <tr>
-                <td><span class="strong">@currProbe.header</span></td>
-                <td><span class="select">@currProbe.getDateWithFormat("HH:mm:ss dd.MM.yyyy")</span></td>
-                <td><span class="red-text">@currProbe.psdir</span></td>
-                <td>@currProbe.tags</td>
-                <td>
-                    @currProbe.curr_status match {
-                        case MessageProbe.STATUS.NEW => {
-                            НОВЕ
-                        }
-                        
-                        case MessageProbe.STATUS.POSTED => {
-                            <span class="green-text">ВИПУЩЕНО</span>
-                        }
-                        
-                        case MessageProbe.STATUS.WITH_ERROR => {
-                            <span class="red-text">ПОМИЛКА</span>
-                        }
-                        
-                        case MessageProbe.STATUS.EDITED => {
-                            НОВЕ РЕДАГУВАННЯ
-                        }
-                        
-                        case MessageProbe.STATUS.WAIT_CONFIRM => {
-                            <span class="green-text">ПРИЙНЯТТЯ РЕДАГУВАННЯ</span>
-                        }
-                        
-                        case MessageProbe.STATUS.ACCEPTED => {
-                             <span class="red-text">ПРИЙНЯТО</span>
-                        }
-                        
-                        case MessageProbe.STATUS.DELETED => {
-                            ВИДАЛЕНО
-                        }
-                    }
-                </td>
-                <td>
-                    [<a href=@routes.SimpleReleaseContoller.viewPost(currProbe.id)>Перегляд</a>] 
-                    @if(currProbe.curr_status != MessageProbe.STATUS.ACCEPTED) { 
-                        [<a href=@routes.SimpleReleaseContoller.editForm(currProbe.id)>Редагувати</a>] 
-                    }
-                    [<a href=@routes.SimpleReleaseContoller.deletePost(currProbe.id) onclick="return confirm('Видалити повідомлення \'@currProbe.header\' ?\n\nУВАГА: Якщо повідомлення не має статусу ВИПУЩЕНО, то воно не потрапить у систему!')">Видалити</a>]
-                </td>
+    @if(probeList.size() > 0) {
+        <table align="center" border="1">
+            <tr bgcolor="#2d69aa">
+                <td><font color="white">Заголовок</font></td>
+                <td><font color="white">Дата і час</font></td>
+                <td><font color="white">Псевдонапрямок</font></td>
+                <td><font color="white">Теги</font></td>
+                <td><font color="white">Статус</font></td>
+                <td><font color="white">Операції</font></td>
             </tr>
-            @if(currProbe.curr_status == MessageProbe.STATUS.WITH_ERROR) {
+            @for(currProbe <- probeList) {
                 <tr>
-                    <td align="center" colspan="6">
-                        <span class="red-text"><b>
-                        @currProbe.curr_error
-                        </b></span>
+                    <td><span class="strong">@currProbe.header</span></td>
+                    <td><span class="select">@currProbe.getDateWithFormat("HH:mm:ss dd.MM.yyyy")</span></td>
+                    <td><span class="red-text">@currProbe.psdir</span></td>
+                    <td>@currProbe.tags</td>
+                    <td>
+                        @currProbe.curr_status match {
+                            case MessageProbe.STATUS.NEW => {
+                                НОВЕ
+                            }
+
+                            case MessageProbe.STATUS.POSTED => {
+                                <span class="green-text">ВИПУЩЕНО</span>
+                            }
+
+                            case MessageProbe.STATUS.WITH_ERROR => {
+                                <span class="red-text">ПОМИЛКА</span>
+                            }
+
+                            case MessageProbe.STATUS.EDITED => {
+                                НОВЕ РЕДАГУВАННЯ
+                            }
+
+                            case MessageProbe.STATUS.WAIT_CONFIRM => {
+                                <span class="red-text">ПРИЙНЯТТЯ РЕДАГУВАННЯ</span>
+                            }
+
+                            case MessageProbe.STATUS.ACCEPTED => {
+                                 <span class="green-text">ПРИЙНЯТО</span>
+                            }
+
+                            case MessageProbe.STATUS.DELETED => {
+                                ВИДАЛЕНО
+                            }
+                        }
+                    </td>
+                    <td>
+                        [<a href=@routes.SimpleReleaseContoller.viewPost(currProbe.id)>Перегляд</a>] 
+                        @if(currProbe.curr_status != MessageProbe.STATUS.ACCEPTED) { 
+                            [<a href=@routes.SimpleReleaseContoller.editForm(currProbe.id)>Редагувати</a>] 
+                        }
+                        [<a href=@routes.SimpleReleaseContoller.deletePost(currProbe.id) onclick="return confirm('Видалити повідомлення \'@currProbe.header\' ?\n\nУВАГА: Якщо повідомлення не має статусу ВИПУЩЕНО, то воно не потрапить у систему!')">Видалити</a>]
                     </td>
                 </tr>
+                @if(currProbe.curr_status == MessageProbe.STATUS.WITH_ERROR) {
+                    <tr>
+                        <td align="center" colspan="6">
+                            <span class="red-text"><b>
+                            @currProbe.curr_error
+                            </b></span>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </table>
+        </table>
+    } else {
+        <h2>Ви не випустили жодного повідомлення.</h2>
+    }
     </div>
 }
