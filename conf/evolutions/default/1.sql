@@ -25,6 +25,18 @@ create table pseudo_directory_set (
   constraint pk_pseudo_directory_set primary key (id))
 ;
 
+create table server_config (
+  id                        varchar(255) not null,
+  name                      varchar(255),
+  address                   varchar(255),
+  port                      integer,
+  ruser                     varchar(255),
+  hpass                     varchar(255),
+  curr_status               integer,
+  constraint ck_server_config_curr_status check (curr_status in (0,1,2)),
+  constraint pk_server_config primary key (id))
+;
+
 create table session (
   id                        varchar(255) not null,
   username                  varchar(200) not null,
@@ -41,6 +53,8 @@ create sequence message_probe_seq;
 
 create sequence pseudo_directory_set_seq;
 
+create sequence server_config_seq;
+
 create sequence session_seq;
 
 
@@ -52,11 +66,15 @@ drop table if exists message_probe cascade;
 
 drop table if exists pseudo_directory_set cascade;
 
+drop table if exists server_config cascade;
+
 drop table if exists session cascade;
 
 drop sequence if exists message_probe_seq;
 
 drop sequence if exists pseudo_directory_set_seq;
+
+drop sequence if exists server_config_seq;
 
 drop sequence if exists session_seq;
 
