@@ -31,7 +31,7 @@ import play.data.format.*;
  * @author Stanislav Nepochatov <spoilt.exile@gmail.com>
  */
 @Entity
-public class ServerConfig {
+public class ServerConfig extends Model {
     
     @Id
     public String id;

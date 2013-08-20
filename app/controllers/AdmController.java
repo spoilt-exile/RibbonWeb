@@ -25,6 +25,7 @@ import play.mvc.*;
 import views.html.*;
 import views.html.defaultpages.error;
 
+import play.db.ebean.*;
 import play.data.*;
 import static play.mvc.Controller.session;
 
@@ -41,6 +42,7 @@ public class AdmController extends Controller {
             return redirect(routes.LoginController.index());
         }
     }
+    
     public static Result configForm() {
         if ((session("connected") != null && session("admin") != null && session("admin").equals("true")) || MiniGate.currConfig == null) {
             return ok(adm_config.render(null));
@@ -50,6 +52,11 @@ public class AdmController extends Controller {
     }
     
     public static Result config() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        models.ServerConfig newConfig = Form.form(models.ServerConfig.class).bindFromRequest().get();
+        newConfig.hpass = MiniGate.getHash(newConfig.rpass);
+        newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
+        newConfig.save();
+        MiniGate.init();
+        return redirect(routes.LoginController.index());
     }
 }
