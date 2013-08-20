@@ -16,6 +16,8 @@ POST    /simple_edit                controllers.SimpleReleaseContoller.edit()
 GET     /delete_post                controllers.SimpleReleaseContoller.deletePost(id:String)
 
 GET     /admin                      controllers.AdmController.index()
+GET     /admin_config               controllers.AdmController.configForm()
+POST    /admin_config               controllers.AdmController.config()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

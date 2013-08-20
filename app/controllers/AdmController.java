@@ -41,5 +41,15 @@ public class AdmController extends Controller {
             return redirect(routes.LoginController.index());
         }
     }
+    public static Result configForm() {
+        if ((session("connected") != null && session("admin") != null && session("admin").equals("true")) || MiniGate.currConfig == null) {
+            return ok(adm_config.render(null));
+        } else {
+            return redirect(routes.LoginController.index());
+        }
+    }
     
+    public static Result config() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -65,7 +65,7 @@ public final class MiniGate {
         if (isGateReady || initRun) {
             return;
         }
-        currConfig = new Model.Finder(String.class, models.ServerConfig.class).where().eq("curr_status", 2).findUnique();
+        currConfig = (models.ServerConfig) new Model.Finder(String.class, models.ServerConfig.class).where().eq("curr_status", 2).findUnique();
         if (currConfig == null) {
             return;
         }

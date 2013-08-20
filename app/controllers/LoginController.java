@@ -41,12 +41,14 @@ public class LoginController extends Controller {
     private static String errorLogin = null;
 
     public static Result index() {
+        if (MiniGate.currConfig == null) {
+            return redirect(routes.AdmController.configForm());
+        }
         if (session("connected") != null) {
             return redirect(routes.SimpleReleaseContoller.index());
         } else {
             if (!MiniGate.isGateReady) {
                 return ok(ribbon_error.render(MiniGate.gateErrorStr));
-                
             } else {
                 return ok(login.render("Вхід до системи..."));
             }
