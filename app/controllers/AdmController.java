@@ -56,7 +56,25 @@ public class AdmController extends Controller {
         newConfig.hpass = MiniGate.getHash(newConfig.rpass);
         newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
         newConfig.save();
-        MiniGate.init();
-        return redirect(routes.LoginController.index());
+        Boolean flag = MiniGate.probeInit();
+        if (flag) {
+            return redirect(routes.LoginController.index());
+        } else {
+            newConfig.refresh();
+            return ok(adm_config.render(newConfig));
+        }
+    }
+    
+    public static Result editForm(String id) {
+        if ((session("connected") != null && session("admin") != null && session("admin").equals("true")) || MiniGate.currConfig == null) {
+            models.ServerConfig currConfig = (models.ServerConfig) new Model.Finder(String.class, models.ServerConfig.class).byId(id);
+            if (currConfig == null) {
+                return ok(ribbon_error.render("Немає конфігурації з id=" + id));
+            } else {
+                return ok(adm_config.render(currConfig));
+            }
+        } else {
+            return redirect(routes.LoginController.index());
+        }
     }
 }

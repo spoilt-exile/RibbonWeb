@@ -74,6 +74,15 @@ public final class MiniGate {
             public void run() {
                 initRun = true;
                 while (true) {
+                    Boolean flag = internalInit();
+                    if (flag) {
+                        break;
+                    } else {
+                        try {
+                            Thread.sleep(60 * 1000);
+                        } catch (InterruptedException ex) {}
+                    }
+                    /**
                     //Try to set up sockets.
                     gate.tryConnect(currConfig.address, currConfig.port);
                     //If sockets initiation failed -> sleep 60 sec and return to begin of cycle
@@ -116,7 +125,8 @@ public final class MiniGate {
                         sender = new SenderThread();
                         sender.start();
                         break;
-                    }
+                     
+                    }**/
                 }
             }
             
@@ -136,6 +146,93 @@ public final class MiniGate {
             }
             
         }.start();
+    }
+    
+    /**
+     * Try to connect with current config.
+     * @return result of connect;
+     */
+    public static Boolean probeInit() {
+        if (isGateReady) {
+            gate.closeGate();
+            isGateReady = false;
+        }
+        currConfig = (models.ServerConfig) new Model.Finder(String.class, models.ServerConfig.class).where().eq("curr_status", 2).findUnique();
+        initRun = true;
+        Boolean flag = internalInit();
+        if (!flag) {
+            currConfig.curr_status = models.ServerConfig.STATUS.INVALID;
+            currConfig.save();
+            currConfig = null;
+        }
+        initRun = false;
+        return flag;
+    }
+    
+    /**
+     * Internal initialization method.
+     * @return true if init successful;
+     */
+    private static Boolean internalInit() {
+        //Try to set up sockets.
+        gate.tryConnect(currConfig.address, currConfig.port);
+        //If sockets initiation failed -> sleep 60 sec and return to begin of cycle
+        if (!gate.isAlive) {
+            gateErrorStr = "Немає з'язку";
+            return false;
+        } else {
+            //Gate starting.
+            gate.start();
+
+            //Handling connection initiation error
+            //When occurred: if you use server with different version of protocol.
+            String initErr = gate.sendCommandWithCheck("RIBBON_NCTL_INIT:CLIENT,a2,UTF-8");
+            if (initErr != null) {
+                setError(initErr);
+                return false;
+            }
+
+            //Handling login error
+            //Gate connection must be logined in order to use remote mode of connection
+            //When occurred: when you try to login invalid user or login with invalid password
+            String loginErr = gate.sendCommandWithCheck("RIBBON_NCTL_LOGIN:{" + currConfig.ruser + "}," + currConfig.hpass);
+            if (loginErr != null) {
+                setError(loginErr);
+                return false;
+            }
+
+            //Handling remote mode error
+            //When occurred: when user which logined by gate doesn't have rights to enable remote mode
+            String remoteErr = gate.sendCommandWithCheck("RIBBON_NCTL_SET_REMOTE_MODE:1");
+            if (remoteErr != null) {
+                setError(remoteErr);
+                return false;
+            }
+
+            //Completing initialization
+            isGateReady = true;
+            initRun = false;
+            sender = new SenderThread();
+            sender.start();
+            return true;
+        }
+    }
+    
+    /**
+     * Set error string in gate and other stuff.
+     * @param error string representation of error
+     */
+    private static void setError(String error) {
+        gate.closeGate();
+        gate = new GateWorker();
+        gateErrorStr = error;
+        initRun = false;
+        isGateReady = false;
+        /**
+        try {
+            Thread.sleep(60 * 1000);
+        } catch (InterruptedException ex) {}
+        **/
     }
     
     /**
