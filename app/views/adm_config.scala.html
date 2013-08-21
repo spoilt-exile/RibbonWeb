@@ -20,14 +20,15 @@
 
 @main("Початкове налаштування сервера") {
     <div align="center">
-        <div class="config-frame" align="left">
-        <form action=@routes.AdmController.config() method="post">
+        <div class="config-frame">
+        <form @if(currConfig == null){action=@routes.AdmController.config()} else {action=@routes.AdmController.edit()} method="post">
+            @if(currConfig != null) {<input type="hidden" name="id" value=@currConfig.id>}
             <b>Назва конфігуркції:</b><br>
-            <input type="text" name="name" required size="47"><br>
+            <input type="text" name="name" required size="47" @if(currConfig != null) {value="@currConfig.name"}><br>
             <b>Адреса сервера повідомлень (зазвичай localhost):</b><br>
-            <input type="text" name="address" required value="127.0.0.1" size="47"><br>
+            <input type="text" name="address" required @if(currConfig != null) {value="@currConfig.address"} else {value="127.0.0.1"} size="47"><br>
             <b>Порт зв’язку сервера повідомлень (зазвичай 3003):</b><br>
-            <input type="text" name="port" required value="3003" size="47"><br>
+            <input type="text" name="port" required @if(currConfig != null) {value="@currConfig.port"} else {value="3003"} size="47"><br>
             <b>Ім'я користувача:</b><br>
             <input type="text" name="ruser" required size="47"><br>
             <b>Пароль:</b><br>
