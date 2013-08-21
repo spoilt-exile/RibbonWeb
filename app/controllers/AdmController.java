@@ -19,6 +19,7 @@
 
 package controllers;
 
+import java.util.List;
 import play.*;
 import play.mvc.*;
 
@@ -89,6 +90,15 @@ public class AdmController extends Controller {
         } else {
             newConfig.refresh();
             return ok(adm_config.render(newConfig));
+        }
+    }
+    
+    public static Result list() {
+        if (session("connected") != null && session("admin") != null && session("admin").equals("true")) {
+            List<models.ServerConfig> confs = new Model.Finder(String.class, models.ServerConfig.class).all();
+            return ok(adm_list.render(confs));
+        } else {
+            return redirect(routes.LoginController.index());
         }
     }
 }

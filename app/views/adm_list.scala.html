@@ -1,0 +1,65 @@
+@**
+ * This file is part of RibbonWeb application (check README).
+ * Copyright (C) 2012-2013 Stanislav Nepochatov
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+**@
+@(configList: List[models.ServerConfig])
+
+@main("Список налаштуваннь веб-інтерфейсу системи") {
+    <div align="center">
+    @if(configList.size() > 0) {
+        <table align="center" border="1">
+            <tr bgcolor="#2d69aa">
+                <td><font color="white">Назва</font></td>
+                <td><font color="white">Адреса</font></td>
+                <td><font color="white">Користувач гейта</font></td>
+                <td><font color="white">Статус</font></td>
+                <td><font color="white">Операції</font></td>
+            </tr>
+            @for(currConfig <- configList) {
+            <tr>
+                <td>@currConfig.name</td>
+                <td>@currConfig.address</td>
+                <td>@currConfig.ruser</td>
+                <td>
+                    @currConfig.curr_status match {
+                        case ServerConfig.STATUS.VALID => {
+                            <span class="blue-text">ГІДНА</span>
+                        }
+                        
+                        case ServerConfig.STATUS.INVALID => {
+                            <span class="red-text">ГІДНА</span>
+                        }
+                        
+                        case ServerConfig.STATUS.CURRENT => {
+                            <span class="strong"><span class="green-text">ПОТОЧНА</span></span>
+                        }
+                    }
+                </td>
+                <td>
+                    @if(currConfig.curr_status != ServerConfig.STATUS.CURRENT) {
+                        [РЕДАГУВАТИ] 
+                        [ВИДАЛИТИ]
+                    } else {
+                        [РЕДАГУВАТИ]
+                    }
+                </td>
+            </tr>
+            }
+        </table>
+    }
+    </div>
+}

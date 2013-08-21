@@ -18,5 +18,11 @@
 **@
 
 @main("Інтерфейс адміністратора") {
-
+    @if(MiniGate.currConfig != null) {
+        <b>Поточна конфігурація: </b> @MiniGate.currConfig.name<br>
+        <b>Адреса сервера: </b> @MiniGate.currConfig.address<br>
+        <b>Мережевий порт: </b> @MiniGate.currConfig.port<br>
+        <b>Користувач гейту: </b> <span class="red-text">@MiniGate.currConfig.ruser</span><br>
+        <a href="@routes.AdmController.list()">Список конфігурацій</a>
+    }
 }
