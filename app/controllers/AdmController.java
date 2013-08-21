@@ -55,14 +55,20 @@ public class AdmController extends Controller {
     public static Result config() {
         models.ServerConfig newConfig = Form.form(models.ServerConfig.class).bindFromRequest().get();
         newConfig.hpass = MiniGate.getHash(newConfig.rpass);
-        newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
-        newConfig.save();
-        Boolean flag = MiniGate.probeInit();
-        if (flag) {
-            return redirect(routes.LoginController.index());
+        if (MiniGate.currConfig == null) {
+            newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
+            newConfig.save();
+            Boolean flag = MiniGate.probeInit();
+            if (flag) {
+                return redirect(routes.LoginController.index());
+            } else {
+                newConfig.refresh();
+                return ok(adm_config.render(newConfig));
+            }
         } else {
-            newConfig.refresh();
-            return ok(adm_config.render(newConfig));
+            newConfig.curr_status = models.ServerConfig.STATUS.INVALID;
+            newConfig.save();
+            return redirect(routes.AdmController.list());
         }
     }
     

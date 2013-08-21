@@ -19,6 +19,7 @@
 @(configList: List[models.ServerConfig])
 
 @main("Список налаштуваннь веб-інтерфейсу системи") {
+    <a href=@routes.AdmController.config()>Створити нову конфігурацію</a><br><br>
     <div align="center">
     @if(configList.size() > 0) {
         <table align="center" border="1">
@@ -41,7 +42,7 @@
                         }
                         
                         case ServerConfig.STATUS.INVALID => {
-                            <span class="red-text">ГІДНА</span>
+                            <span class="red-text">НЕГІДНА</span>
                         }
                         
                         case ServerConfig.STATUS.CURRENT => {
@@ -51,10 +52,11 @@
                 </td>
                 <td>
                     @if(currConfig.curr_status != ServerConfig.STATUS.CURRENT) {
-                        [РЕДАГУВАТИ] 
+                        [ЗРОБИТИ ПОТОЧНОЮ]
+                        [<a href="@routes.AdmController.editForm(currConfig.id)">РЕДАГУВАТИ</a>] 
                         [ВИДАЛИТИ]
                     } else {
-                        [РЕДАГУВАТИ]
+                        [<a href="@routes.AdmController.editForm(currConfig.id)" onclick="return confirm('РЕДАГУВАТИ ПОТОЧНУ КОНФІГУРАЦІЮ НЕБЕЗПЕЧНО!')">РЕДАГУВАТИ</a>]
                     }
                 </td>
             </tr>
