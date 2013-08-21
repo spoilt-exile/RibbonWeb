@@ -159,6 +159,7 @@ public class GateWorker extends Thread{
             try {
                 synchronized (atomLock) {
                     atomFlag = true;
+                    atomLock.notifyAll();
                 }
                 String inputLine = null;
                 inputLine = inStream.readLine();
@@ -169,7 +170,6 @@ public class GateWorker extends Thread{
                 synchronized (collectLock) {
                     synchronized (atomLock) {
                         atomFlag = false;
-                        atomLock.notifyAll();
                     }
                     System.out.println("COLLECT = " + collectState);
                     switch (collectState) {
@@ -236,7 +236,7 @@ public class GateWorker extends Thread{
      */
     public void sendCommand(String givenCommand) {
         synchronized (atomLock) {
-            if (atomFlag) {
+            if (!atomFlag) {
                 try {
                     System.out.println("===WAIT===");
                     atomLock.wait();
