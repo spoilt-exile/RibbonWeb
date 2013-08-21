@@ -75,7 +75,9 @@ public class GateWorker extends Thread{
      */
     private final Object collectLock = new Object();
     
-    private Boolean inRead = false;
+    private Boolean atomFlag = false;
+    
+    private final Object atomLock = new Object();
     
     /**
      * Try connect to server.
@@ -155,17 +157,33 @@ public class GateWorker extends Thread{
     public void run() {
          while (isAlive) {
             try {
+                synchronized (atomLock) {
+                    atomFlag = true;
+                }
+                String inputLine = null;
+                inputLine = inStream.readLine();
+                System.out.println("SERV: " + inputLine);
+                if (inputLine == null) {
+                    throw new NullPointerException();
+                }
                 synchronized (collectLock) {
-                    String inputLine = inStream.readLine();
-                    System.out.println(inputLine);
-                    inRead = true;
+                    synchronized (atomLock) {
+                        atomFlag = false;
+                        atomLock.notifyAll();
+                    }
+                    System.out.println("COLLECT = " + collectState);
                     switch (collectState) {
                         case 0:
-                            this.exec(inputLine);
+                            try {
+                                this.exec(inputLine);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                             break;
                         case 1:
                             collectBuf.append(inputLine);
                             collectState = 0;
+                            System.out.println("<RET");
                             collectLock.notify();
                             break;
                         case 2:
@@ -173,14 +191,15 @@ public class GateWorker extends Thread{
                                 collectBuf.append(inputLine + "\n");
                                 if (inputLine.startsWith("RIBBON_ERROR:")) {
                                     collectState = 0;
+                                    System.out.println("<ERROR");
                                     collectLock.notify();
                                 }
                             } else {
                                 collectState = 0;
+                                System.out.println("<COLLECT");
                                 collectLock.notify();
                             }
                     }
-                    inRead = false;
                 }
             } catch (java.io.IOException ex) {
                 isAlive = false;
@@ -215,12 +234,16 @@ public class GateWorker extends Thread{
      * Send command to the server.
      * @param givenCommand command to send;
      */
-    public synchronized void sendCommand(String givenCommand) {
-        try {
-            while(inRead) {
-                Thread.sleep(100);
+    public void sendCommand(String givenCommand) {
+        synchronized (atomLock) {
+            if (atomFlag) {
+                try {
+                    System.out.println("===WAIT===");
+                    atomLock.wait();
+                } catch (InterruptedException ex) {}
             }
-        } catch (InterruptedException ex) {}
+        }
+        System.out.println("===PRINT===");
         outStream.println(givenCommand);
     }
     
@@ -230,17 +253,15 @@ public class GateWorker extends Thread{
      * @return return status line from server;
      */
     public String sendCommandWithReturn(String givenCommand) {
-        String respond;
+        String respond = null;
+        this.collectState = 1;
+        System.out.println(">RET: " + givenCommand);
+        sendCommand(givenCommand);
         synchronized (collectLock) {
-            this.collectState = 1;
-            System.out.println(givenCommand);
-            sendCommand(givenCommand);
             while (collectState == 1) {
                 try {
                     collectLock.wait();
-                } catch (InterruptedException ex) {
-                    
-                }
+                } catch (InterruptedException ex) {}
             }
             respond = collectBuf.toString();
             collectBuf = new StringBuffer();
@@ -273,7 +294,7 @@ public class GateWorker extends Thread{
     public String sendCommandWithCollect(String givenCommand) {
         String respond;
         synchronized (collectLock) {
-            System.out.println(givenCommand);
+            System.out.println(">COLLECT: " + givenCommand);
             this.collectState = 2;
             sendCommand(givenCommand);
             while (collectState == 2) {

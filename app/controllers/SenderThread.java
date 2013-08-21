@@ -36,9 +36,7 @@ public class SenderThread extends Thread {
     @Override
     public void run() {
         while (MiniGate.isGateReady) {
-            synchronized (dataLock) {
-                postMessages();
-            }
+            postMessages();
             try {
                 Thread.sleep(30 * 1000);
             } catch (InterruptedException ex) {
@@ -64,38 +62,46 @@ public class SenderThread extends Thread {
             if ((currProbe.curr_status == models.MessageProbe.STATUS.WITH_ERROR) || (currProbe.curr_status == models.MessageProbe.STATUS.NEW)) {
                 String contextErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + currProbe.author + "}");
                 if (contextErr != null) {
-                    currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
-                    currProbe.curr_error = contextErr;
-                    currProbe.update();
+                    synchronized (dataLock) {
+                        currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                        currProbe.curr_error = contextErr;
+                        currProbe.update();
+                    }
                 } else {
                     String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToPost());
-                    if (postErr != null) {
-                        currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
-                        currProbe.curr_error = postErr;
-                    } else {
-                        currProbe.curr_status = models.MessageProbe.STATUS.POSTED;
-                        currProbe.curr_error = null;
+                    synchronized (dataLock) {
+                        if (postErr != null) {
+                            currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                            currProbe.curr_error = postErr;
+                        } else {
+                            currProbe.curr_status = models.MessageProbe.STATUS.POSTED;
+                            currProbe.curr_error = null;
+                        }
+                        currProbe.update();
                     }
-                    currProbe.update();
                 }
             } else if (currProbe.curr_status == models.MessageProbe.STATUS.DELETED) {
                 currProbe.delete();
             } else if (currProbe.curr_status == models.MessageProbe.STATUS.EDITED) {
                 String contextErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + currProbe.author + "}");
                 if (contextErr != null) {
-                    currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
-                    currProbe.curr_error = contextErr;
-                    currProbe.update();
+                    synchronized (dataLock) {
+                        currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                        currProbe.curr_error = contextErr;
+                        currProbe.update();
+                    }
                 } else {
                     String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToModify());
-                    if (postErr != null) {
-                        currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
-                        currProbe.curr_error = postErr;
-                    } else {
-                        currProbe.curr_status = models.MessageProbe.STATUS.WAIT_CONFIRM;
-                        currProbe.curr_error = null;
+                    synchronized (dataLock) {
+                        if (postErr != null) {
+                            currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
+                            currProbe.curr_error = postErr;
+                        } else {
+                            currProbe.curr_status = models.MessageProbe.STATUS.WAIT_CONFIRM;
+                            currProbe.curr_error = null;
+                        }
+                        currProbe.update();
                     }
-                    currProbe.update();
                 }
             }
         }
