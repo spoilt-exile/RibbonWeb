@@ -314,7 +314,9 @@ public class GateWorker extends Thread{
      * Close this gate connection.
      */
     public void closeGate() {
-        outStream.println("RIBBON_NCTL_CLOSE:");
+        if (outStream != null) {
+            outStream.println("RIBBON_NCTL_CLOSE:");
+        }
     }
     
     /**
