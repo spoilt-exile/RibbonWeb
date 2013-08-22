@@ -33,6 +33,12 @@ public class SenderThread extends Thread {
      */
     private Object dataLock = new Object();
     
+    public Integer postCounter = 0;
+    
+    public Integer editCounter = 0;
+    
+    public Integer errCounter = 0;
+    
     @Override
     public void run() {
         while (MiniGate.isGateReady) {
@@ -66,6 +72,7 @@ public class SenderThread extends Thread {
                         currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
                         currProbe.curr_error = contextErr;
                         currProbe.update();
+                        errCounter++;
                     }
                 } else {
                     String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToPost());
@@ -73,9 +80,11 @@ public class SenderThread extends Thread {
                         if (postErr != null) {
                             currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
                             currProbe.curr_error = postErr;
+                            errCounter++;
                         } else {
                             currProbe.curr_status = models.MessageProbe.STATUS.POSTED;
                             currProbe.curr_error = null;
+                            postCounter++;
                         }
                         currProbe.update();
                     }
@@ -89,6 +98,7 @@ public class SenderThread extends Thread {
                         currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
                         currProbe.curr_error = contextErr;
                         currProbe.update();
+                        errCounter++;
                     }
                 } else {
                     String postErr = MiniGate.gate.sendCommandWithCheck(currProbe.getCsvToModify());
@@ -96,9 +106,11 @@ public class SenderThread extends Thread {
                         if (postErr != null) {
                             currProbe.curr_status = models.MessageProbe.STATUS.WITH_ERROR;
                             currProbe.curr_error = postErr;
+                            errCounter++;
                         } else {
                             currProbe.curr_status = models.MessageProbe.STATUS.WAIT_CONFIRM;
                             currProbe.curr_error = null;
+                            editCounter++;
                         }
                         currProbe.update();
                     }

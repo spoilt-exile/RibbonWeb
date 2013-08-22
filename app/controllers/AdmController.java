@@ -44,6 +44,10 @@ public class AdmController extends Controller {
         }
     }
     
+    public static Result stats() {
+        return ok(adm_stats.render());
+    }
+    
     public static Result configForm() {
         if ((session("connected") != null && session("admin") != null && session("admin").equals("true")) || MiniGate.currConfig == null) {
             return ok(adm_config.render(null));

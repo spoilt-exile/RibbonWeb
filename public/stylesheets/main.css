@@ -1,7 +1,6 @@
 /** Body style override **/
 body {
   	background-color: #ffffff;
-  	margin: 12pt;
 }
 
 /** Main header style class **/
@@ -23,6 +22,13 @@ body {
 
 /** Main text style class **/
 .main{
+        margin: 12pt;
+	font-size: 12pt;
+	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+  	text-align: justify;
+}
+
+.main-iframe{
 	font-size: 12pt;
 	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
   	text-align: justify;
