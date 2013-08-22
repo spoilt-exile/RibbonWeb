@@ -141,6 +141,16 @@ public class AdmController extends Controller {
         }
     }
     
+    public static Result delete(String id) {
+        if (session("connected") != null && session("admin") != null && session("admin").equals("true")) {
+            models.ServerConfig delConf = (models.ServerConfig) new Model.Finder(String.class, models.ServerConfig.class).byId(id);
+            delConf.delete();
+            return redirect(routes.AdmController.list());
+        } else {
+            return redirect(routes.LoginController.index());
+        }
+    }
+    
     public static Result list() {
         if (session("connected") != null && session("admin") != null && session("admin").equals("true")) {
             List<models.ServerConfig> confs = new Model.Finder(String.class, models.ServerConfig.class).all();

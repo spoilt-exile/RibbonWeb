@@ -21,6 +21,7 @@ POST    /admin_config               controllers.AdmController.config()
 GET     /admin_config_edit          controllers.AdmController.editForm(id:String)
 POST    /admin_config_edit          controllers.AdmController.edit()
 GET     /admin_config_switch        controllers.AdmController.switchTo(id:String)
+GET     /admin_config_delete        controllers.AdmController.delete(id:String)
 GET     /list                       controllers.AdmController.list()
 
 # Map static resources from the /public folder to the /assets URL path

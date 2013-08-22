@@ -54,7 +54,7 @@
                     @if(currConfig.curr_status != ServerConfig.STATUS.CURRENT) {
                         [<a href="@routes.AdmController.switchTo(currConfig.id)" onclick="return confirm('УВАГА!\n\nМОЖЕ ПРИЗВЕСТИ ДО НЕПРАЦЕНЗДАТНТОСТІ СЕРВЕРА!')">ЗРОБИТИ ПОТОЧНОЮ</a>]
                         [<a href="@routes.AdmController.editForm(currConfig.id)">РЕДАГУВАТИ</a>] 
-                        [ВИДАЛИТИ]
+                        [<a href="@routes.AdmController.delete(currConfig.id)">ВИДАЛИТИ</a>]
                     } else {
                         [<a href="@routes.AdmController.editForm(currConfig.id)" onclick="return confirm('РЕДАГУВАТИ ПОТОЧНУ КОНФІГУРАЦІЮ НЕБЕЗПЕЧНО!')">РЕДАГУВАТИ</a>]
                     }
