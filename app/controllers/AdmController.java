@@ -87,15 +87,57 @@ public class AdmController extends Controller {
     
     public static Result edit() {
         models.ServerConfig newConfig = Form.form(models.ServerConfig.class).bindFromRequest().get();
-        newConfig.hpass = MiniGate.getHash(newConfig.rpass);
-        newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
-        newConfig.update();
-        Boolean flag = MiniGate.probeInit();
-        if (flag) {
-            return redirect(routes.LoginController.index());
+        if (!MiniGate.isGateReady && MiniGate.currConfig == null) {
+            newConfig.hpass = MiniGate.getHash(newConfig.rpass);
+            newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
+            newConfig.update();
+            Boolean flag = MiniGate.probeInit();
+            if (flag) {
+                return redirect(routes.LoginController.index());
+            } else {
+                newConfig.refresh();
+                return ok(adm_config.render(newConfig));
+            }
         } else {
-            newConfig.refresh();
-            return ok(adm_config.render(newConfig));
+            newConfig.hpass = MiniGate.getHash(newConfig.rpass);
+            if (newConfig.id.equals(MiniGate.currConfig.id)) {
+                newConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
+            }
+            newConfig.update();
+            if (newConfig.id.equals(MiniGate.currConfig.id)) {
+                MiniGate.closeConnection();
+                MiniGate.init();
+            }
+            return redirect(routes.AdmController.list());
+        }
+    }
+    
+    public static Result switchTo(String id) {
+        if (session("connected") != null && session("admin") != null && session("admin").equals("true")) {
+            models.ServerConfig switchConf = (models.ServerConfig) new Model.Finder(String.class, models.ServerConfig.class).byId(id);
+            models.ServerConfig oldConfig = null;
+            if (MiniGate.currConfig != null) {
+                oldConfig = MiniGate.currConfig;
+                oldConfig.refresh();
+                oldConfig.curr_status = models.ServerConfig.STATUS.VALID;
+                oldConfig.update();
+            }
+            switchConf.curr_status = models.ServerConfig.STATUS.CURRENT;
+            switchConf.update();
+            MiniGate.closeConnection();
+            Boolean flag = MiniGate.probeInit();
+            if (!flag) {
+                switchConf.refresh();
+                switchConf.curr_status = models.ServerConfig.STATUS.INVALID;
+                switchConf.update();
+                oldConfig.refresh();
+                oldConfig.curr_status = models.ServerConfig.STATUS.CURRENT;
+                oldConfig.update();
+                MiniGate.init();
+            }
+            return redirect(routes.AdmController.list());
+        } else {
+            return redirect(routes.LoginController.index());
         }
     }
     

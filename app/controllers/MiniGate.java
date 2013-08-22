@@ -223,16 +223,23 @@ public final class MiniGate {
      * @param error string representation of error
      */
     private static void setError(String error) {
-        gate.closeGate();
+        if (sender != null) {
+            sender = null;
+        }
+        if (gate != null) {
+            gate.closeGate();
+        }
         gate = new GateWorker();
         gateErrorStr = error;
         initRun = false;
         isGateReady = false;
-        /**
-        try {
-            Thread.sleep(60 * 1000);
-        } catch (InterruptedException ex) {}
-        **/
+    }
+    
+    /**
+     * Close gate for switching configurations.
+     */
+    public static void closeConnection() {
+        setError("З’єднання тимчасово вимкнуто.");
     }
     
     /**

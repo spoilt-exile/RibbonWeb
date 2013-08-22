@@ -52,7 +52,7 @@
                 </td>
                 <td>
                     @if(currConfig.curr_status != ServerConfig.STATUS.CURRENT) {
-                        [ЗРОБИТИ ПОТОЧНОЮ]
+                        [<a href="@routes.AdmController.switchTo(currConfig.id)" onclick="return confirm('УВАГА!\n\nМОЖЕ ПРИЗВЕСТИ ДО НЕПРАЦЕНЗДАТНТОСТІ СЕРВЕРА!')">ЗРОБИТИ ПОТОЧНОЮ</a>]
                         [<a href="@routes.AdmController.editForm(currConfig.id)">РЕДАГУВАТИ</a>] 
                         [ВИДАЛИТИ]
                     } else {
