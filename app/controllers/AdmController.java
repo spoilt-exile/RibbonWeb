@@ -48,6 +48,11 @@ public class AdmController extends Controller {
         return ok(adm_stats.render());
     }
     
+    public static Result errList() {
+        List<models.MessageProbe> probes = new Model.Finder(String.class, models.MessageProbe.class).where().ne("curr_status", 1).ne("curr_status", 5).findList();
+        return ok(adm_errlist.render(probes));
+    }
+    
     public static Result configForm() {
         if ((session("connected") != null && session("admin") != null && session("admin").equals("true")) || MiniGate.currConfig == null) {
             return ok(adm_config.render(null));

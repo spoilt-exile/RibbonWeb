@@ -24,6 +24,7 @@ GET     /admin_config_switch        controllers.AdmController.switchTo(id:String
 GET     /admin_config_delete        controllers.AdmController.delete(id:String)
 GET     /list                       controllers.AdmController.list()
 GET     /stats                      controllers.AdmController.stats()
+GET     /err_list                   controllers.AdmController.errList()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

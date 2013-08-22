@@ -1,102 +1,118 @@
 /** Body style override **/
 body {
-  	background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 /** Main header style class **/
 .m-header{
-  	text-align: center;
-	font-weight: bold;
-	font-size: 22pt;
-	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
-	background-color: #5990d9;
- 	color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 22pt;
+    font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+    background-color: #5990d9;
+    color: #ffffff;
 }
 
 /** Ordinary header style class **/
 .header{
-	font-weight: bold;
-	font-size: 16pt;
-	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+    font-weight: bold;
+    font-size: 16pt;
+    font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
 }
 
 /** Main text style class **/
 .main{
-        margin: 12pt;
-	font-size: 12pt;
-	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
-  	text-align: justify;
+    margin: 12pt;
+    font-size: 12pt;
+    font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+    text-align: justify;
 }
 
 .main-iframe{
-	font-size: 12pt;
-	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
-  	text-align: justify;
+    font-size: 12pt;
+    font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+    text-align: justify;
 }
 
 /** Bold text style class **/
 .strong{
-  font-weight: bold;
+    font-weight: bold;
 }
 
 /** Italic text style class **/
 .select {
-	font-style: italic;
+    font-style: italic;
 }
 
 /** Red text **/
 .red-text {
-	color: #b30000;
+    color: #b30000;
 }
 
 /** Green text **/
 .green-text {
-  color: #0c5602;
+    color: #0c5602;
 }
 
 /** Blue text **/
 .blue-text {
-  color: #0048b3;
+    color: #0048b3;
 }
 
 /** Error class: header **/
 .ribbon_error_header {
-	color: #b30000;
-	font-weight: bold;
-	font-size: 22pt;
-	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+    color: #b30000;
+    font-weight: bold;
+    font-size: 22pt;
+    font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
 }
 
 /** Error class: body **/
 .ribbon_error_body {
-	color: #b30000;
-	font-size: 18pt;
-	font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
+    color: #b30000;
+    font-size: 18pt;
+    font-family: "PT Sans", "Liberation Sans", "Tahoma", sans-serif;
 }
 
 .login-frame {
-        width: 250px;
-        color: #ffffff;
-        border: 1px solid #e51e1e;
-        border-radius: 9px;
-        padding: 5px 5px 5px;
-	background-color: #2d69aa;
+    width: 250px;
+    color: #ffffff;
+    border: 1px solid #e51e1e;
+    border-radius: 9px;
+    padding: 5px 5px 5px;
+    background-color: #2d69aa;
 }
 
 .release-frame {
-        width: 1000px;
-        color: #ffffff;
-        border: 1px solid #e51e1e;
-        border-radius: 9px;
-        padding: 5px 5px 5px;
-	background-color: #2d69aa;
+    width: 1000px;
+    color: #ffffff;
+    border: 1px solid #e51e1e;
+    border-radius: 9px;
+    padding: 5px 5px 5px;
+    background-color: #2d69aa;
 }
 
 .config-frame {
-        width: 440px;
-        color: #ffffff;
-        border: 1px solid #e51e1e;
-        border-radius: 9px;
-        padding: 5px 5px 5px;
-	background-color: #2d69aa;
+    width: 440px;
+    color: #ffffff;
+    border: 1px solid #e51e1e;
+    border-radius: 9px;
+    padding: 5px 5px 5px;
+    background-color: #2d69aa;
+}
+
+.tabs {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.tab{
+    position:absolute;
+    visibility: hidden;
+    z-index: 10;
+}
+
+.tabs:target+.tab {
+    opacity: 1;
+    visibility: visible;
 }

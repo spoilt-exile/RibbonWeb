@@ -88,7 +88,7 @@ public class SimpleReleaseContoller extends Controller {
     public static Result edit() {
         models.MessageProbe editPost = Form.form(models.MessageProbe.class).bindFromRequest().get();
         models.MessageProbe oldPost = (models.MessageProbe) new Model.Finder(String.class, models.MessageProbe.class).byId(editPost.id);
-        editPost.author = session("connected");
+        editPost.author = oldPost.author;
         if (editPost.curr_status == models.MessageProbe.STATUS.POSTED) {
             editPost.curr_status = models.MessageProbe.STATUS.EDITED;
         }

@@ -30,7 +30,7 @@ public class Global extends play.GlobalSettings {
     
     @Override
     public void onStop(play.Application app) {
-        controllers.MiniGate.gate.closeGate();
+        controllers.MiniGate.closeConnection();
     }
     
 }

@@ -63,7 +63,7 @@ public class SenderThread extends Thread {
      * Check database for new messages post and mark them.
      */
     private void postMessages() {
-        List<models.MessageProbe> probes = new Model.Finder(String.class, models.MessageProbe.class).where().ne("curr_status", 1).findList();
+        List<models.MessageProbe> probes = (List<models.MessageProbe>) new Model.Finder(String.class, models.MessageProbe.class).where().ne("curr_status", 1).findList();
         for (models.MessageProbe currProbe : probes) {
             if ((currProbe.curr_status == models.MessageProbe.STATUS.WITH_ERROR) || (currProbe.curr_status == models.MessageProbe.STATUS.NEW)) {
                 String contextErr = MiniGate.gate.sendCommandWithCheck("RIBBON_NCTL_ACCESS_CONTEXT:{" + currProbe.author + "}");
