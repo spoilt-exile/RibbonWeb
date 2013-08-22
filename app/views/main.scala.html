@@ -35,22 +35,11 @@
     <table width="100%" border=0>
     <tr>
     <td>
-    @if(MiniGate.isGateReady) {
-        <span class="strong">
-        <span class="green-text">
-        Система працює у штатному режимі.
-        </span>
-        </span>
-    } else {
-        <span class="strong">
-        <span class="red-text">
-        Сервер повідомлень не відповідає, повідомлення будуть відправлені пізніше.<br>
-        @MiniGate.gateErrorStr
-        </span>
-        </span>
-    }
+        <iframe src="@routes.LoginController.status()" width="600" height="45" frameborder="0" marginheight="1" marginwidth="1">
+            Увімкніть у вашому переглядачі підтримку iframe.
+        </iframe>
     </td>
-    <td>
+    <td valign="top">
     <div align="right"><span class="strong">Вхід
     @if(session.get("connected") == null) {
         не виконано.</span>

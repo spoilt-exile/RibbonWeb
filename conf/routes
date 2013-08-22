@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.LoginController.index()
+GET     /status                     controllers.LoginController.status()
 POST	/login                      controllers.LoginController.login()
 GET     /logout                     controllers.LoginController.logout()
 

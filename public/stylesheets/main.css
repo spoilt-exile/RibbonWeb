@@ -101,6 +101,15 @@ body {
     background-color: #2d69aa;
 }
 
+.tab-frame {
+    width: 150px;
+    color: #ffffff;
+    border: 1px solid #e51e1e;
+    border-radius: 9px;
+    padding: 5px 5px 5px;
+    background-color: #2d69aa;
+}
+
 .tabs {
     opacity: 0;
     visibility: hidden;
