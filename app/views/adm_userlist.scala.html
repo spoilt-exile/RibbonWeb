@@ -1,0 +1,70 @@
+@**
+ * This file is part of RibbonWeb application (check README).
+ * Copyright (C) 2012-2013 Stanislav Nepochatov
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+**@
+
+@(sesList: List[Session])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Статистика</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <meta http-equiv="refresh" content="40" >
+    </head>
+    <body>
+        
+    @if(sesList.size() > 0) {
+        <table border="1" width="1200px">
+            <tr bgcolor="#2d69aa">
+                <td><font color="white">Логін</font></td>
+                <td><font color="white">Коментар</font></td>
+                <td><font color="white">Адміністратор</font></td>
+                <td><font color="white">Активна сессія</font></td>
+                <td><font color="white">Вперше увійшов</font></td>
+                <td><font color="white">Востаннє увійшов</font></td>
+            </tr>
+            @for(currSes <- sesList) {
+                <tr>
+                    <td><b>@currSes.username</b></td>
+                    <td>@currSes.description</td>
+                    <td>
+                        @if(currSes.isAdmin) {
+                            <span class="red-text">Так</span>
+                        } else {
+                            <span class="green-text">Ні</span>
+                        }
+                    </td>
+                    <td>
+                        @if(currSes.currStatus == models.Session.STATUS.ONLINE) {
+                            <span class="green-text">Так</span>
+                        } else {
+                            <span class="red-text">Ні</span>
+                        }
+                    </td>
+                    <td><span class="select">@currSes.getFDateWithFormat("HH:mm:ss dd.MM.yyyy")</span></td>
+                    <td><span class="select">@currSes.getLDateWithFormat("HH:mm:ss dd.MM.yyyy")</span></td>
+                </tr>
+            }
+        </table>
+    } else {
+        <h2>Немає жодного повідомлення у черзі.</h2>
+    }
+    </body>
+</html>

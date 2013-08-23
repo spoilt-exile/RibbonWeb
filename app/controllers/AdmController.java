@@ -49,8 +49,13 @@ public class AdmController extends Controller {
     }
     
     public static Result errList() {
-        List<models.MessageProbe> probes = new Model.Finder(String.class, models.MessageProbe.class).where().ne("curr_status", 1).ne("curr_status", 5).findList();
+        List<models.MessageProbe> probes = new Model.Finder(String.class, models.MessageProbe.class).where().ne("curr_status", 1).ne("curr_status", 5).orderBy("date desc").findList();
         return ok(adm_errlist.render(probes));
+    }
+    
+    public static Result userList() {
+        List<models.Session> probes = new Model.Finder(String.class, models.Session.class).where().orderBy("username desc").findList();
+        return ok(adm_userlist.render(probes));
     }
     
     public static Result configForm() {

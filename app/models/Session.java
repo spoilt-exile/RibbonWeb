@@ -114,6 +114,28 @@ public class Session extends Model {
     }
     
     /**
+     * Get formatted first login date as string.
+     * @param format date specific format;
+     * @return formatted string;
+     */
+    public String getFDateWithFormat(String format) {
+        java.text.DateFormat dateFormat = new java.text.SimpleDateFormat(format);
+        String strDate = dateFormat.format(firstLogin);
+        return strDate;
+    }
+    
+    /**
+     * Get formatted last login date as string.
+     * @param format date specific format;
+     * @return formatted string;
+     */
+    public String getLDateWithFormat(String format) {
+        java.text.DateFormat dateFormat = new java.text.SimpleDateFormat(format);
+        String strDate = dateFormat.format(lastLogin);
+        return strDate;
+    }
+    
+    /**
      * Update this session from base.
      */
     public void pick() {
