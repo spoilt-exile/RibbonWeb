@@ -26,7 +26,11 @@
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script language="javascript" type="text/javascript">
+          function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.body.scrollHeight + 40 + 'px';
+          }
+        </script>
     </head>
     <body>
     <div class="main">
