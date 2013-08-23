@@ -141,5 +141,14 @@ public class Session extends Model {
     public void pick() {
         lastLogin = new java.util.Date();
         currStatus = STATUS.ONLINE;
+        java.util.ArrayList<String[]> parsed = Generic.CsvFormat.complexParseLine(controllers.MiniGate.gate.sendCommandWithContextReturn(this.username, "RIBBON_NCTL_GET_USERNAME:"), 2, 1);
+        this.description = parsed.get(0)[1];
+        this.isAdmin = false;
+        for (String group: parsed.get(1)) {
+            if (group.equals("ADM")) {
+                this.isAdmin = true;
+                break;
+            }
+        }
     }
 }
