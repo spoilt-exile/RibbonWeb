@@ -31,13 +31,17 @@
         <span class="strong">Теги (через кому):</span><br>
         <input type="text" name="tags" size="100" maxlength="100" @if(currMessage!=null) {value="@currMessage.tags"}>
         <br>
+        <br>
         <span class="strong">Напрямок випуску:</span> 
             <select name="psdir" required>
                 <option disabled>Оберіть напрямок</option>
                 @for(pseudoDir <- pseudoSet.getDirs()) {
                     <option value=@pseudoDir @if(currMessage!=null && pseudoDir.equals(currMessage.psdir)) {selected="selected"}>@pseudoDir - @pseudoSet.getDirDesc(pseudoDir)</option>
                 }
-            </select>
+            </select> 
+        <span class="strong">
+            <input type="checkbox" name="urgent">ТЕРМІНОВО
+        </span>
         <br>
         <br>
         <span class="strong">Зміст повідомлення:</span><br>

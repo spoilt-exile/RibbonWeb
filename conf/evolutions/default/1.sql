@@ -9,6 +9,7 @@ create table message_probe (
   date                      timestamp not null,
   psdir                     varchar(100) not null,
   tags                      varchar(200),
+  urgent                    boolean,
   content                   varchar(4000000) not null,
   author                    varchar(200) not null,
   ribbon_index              varchar(10),

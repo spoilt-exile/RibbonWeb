@@ -43,7 +43,11 @@
             </tr>
             @for(currProbe <- probeList) {
                 <tr>
-                    <td><span class="strong">@currProbe.header</span></td>
+                    @if(currProbe.urgent) {
+                        <td><span class="red-text"><span class="strong">@currProbe.header</span></span></td>
+                    } else {
+                        <td><span class="strong">@currProbe.header</span></td>
+                    }
                     <td>@currProbe.author</td>
                     <td><span class="select">@currProbe.getDateWithFormat("HH:mm:ss dd.MM.yyyy")</span></td>
                     <td><span class="red-text">@currProbe.psdir</span></td>

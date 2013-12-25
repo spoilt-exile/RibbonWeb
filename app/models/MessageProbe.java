@@ -65,6 +65,11 @@ public class MessageProbe extends Model {
     public String tags;
     
     /**
+     * Urgent flag of this message.
+     */
+    public Boolean urgent;
+    
+    /**
      * Content of message (max = 2M chars).
      */
     @NotNull
@@ -156,7 +161,8 @@ public class MessageProbe extends Model {
         return "RIBBON_POST_MESSAGE_BY_PSEUDO:{" + this.psdir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
                 + "COPYRIGHT,{" + this.author + "},{" + this.author + "}," + compiledDate + "$"
                 + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate + "$"
-                + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate
+                + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate +
+                (this.urgent ? "$URGENT,{},{" + this.id + "}," + compiledDate : "")
                 + "}\n" + content + "\nEND:";
     }
     
@@ -169,7 +175,8 @@ public class MessageProbe extends Model {
         return "RIBBON_MODIFY_MESSAGE_BY_PSEUDO:" + this.ribbon_index + ",{" + this.psdir + "},UKN,{" + this.header + "},[" + tags.replaceAll(" ", "") + "],{"
                 + "COPYRIGHT,{" + this.author + "},{" + this.author + "}," + compiledDate + "$"
                 + "PSEUDO_DIR,{" + this.author + "},{" + this.psdir + "}," + compiledDate + "$"
-                + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate
+                + "REMOTE_ID,{" + this.author + "},{" + this.id + "}," + compiledDate + 
+                (this.urgent ? "$URGENT,{},{" + this.id + "}," + compiledDate : "")
                 + "}\n" + content + "\nEND:";
     }
 }
