@@ -67,7 +67,8 @@ public class MessageProbe extends Model {
     /**
      * Urgent flag of this message.
      */
-    public Boolean urgent;
+    @NotNull
+    public Boolean urgent = false;
     
     /**
      * Content of message (max = 2M chars).
